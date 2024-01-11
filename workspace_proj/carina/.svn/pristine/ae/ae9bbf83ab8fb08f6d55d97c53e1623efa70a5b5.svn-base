@@ -1,0 +1,104 @@
+package com.carina.cbs.member.web;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.carina.cbs.member.service.MemberService;
+import com.carina.cbs.member.vo.MemberVO;
+
+@Controller
+public class MemberController {
+	
+	@Autowired
+	MemberService memberService;	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
+	
+	@RequestMapping("/loginview")
+	public String loginview() {
+		return "loginView";		
+	}
+	@RequestMapping("/registview")
+	public String registview() {
+		
+	    return "registView";
+	    
+	}
+	@RequestMapping("/loginDo")
+	public String loginDo(MemberVO member, HttpSession session,
+	                      boolean remember, String fromUrl, HttpServletResponse response) {
+	    System.out.println(member);
+
+//	    // 입력받은 패스워드를 암호화
+//	    String encryptedPassword = passwordEncoder.encode(member.getMemPw());
+//	    member.setMemPw(encryptedPassword);
+
+	    // 암호화된 패스워드로 로그인 시도
+	    MemberVO login = memberService.loginMember(member);
+
+	    if (login == null) {
+	        return "redirect:/loginview?msg=N";
+	    }
+
+	    // 입력받은 이메일과 DB에서 조회한 이메일을 비교
+	    boolean emailMatch = member.getEmail().equals(login.getEmail());
+
+	    // 입력받은 패스워드를 암호화하여 DB에 저장된 암호화된 패스워드와 비교
+	    boolean passwordMatch = passwordEncoder.matches(member.getMemPw(), login.getMemPw());
+
+	    if (emailMatch && passwordMatch) {
+	        // 이메일과 패스워드가 모두 일치하면 로그인 성공
+
+	        session.setAttribute("login", login);
+
+	        if (remember) {
+	            // true 쿠키 생성
+	            Cookie cookie = new Cookie("rememberId", login.getMemId());
+	            response.addCookie(cookie); // 응답하는 객체에 담아서 전달
+	        } else {
+	            // 쿠키 삭제
+	            Cookie cookie = new Cookie("rememberId", "");
+	            cookie.setMaxAge(0);
+	            response.addCookie(cookie); // 응답하는 객체에 담아서 전달
+	        }
+
+	        return "redirect:/"; // 로그인 성공 시 이동할 페이지
+	    } else {
+	        // 이메일 또는 패스워드가 일치하지 않으면 로그인 실패
+	        return "redirect:/loginview?msg=passwordIncorrect";
+	    }
+	}
+
+	@RequestMapping("/registDo")
+	public String registDo(HttpServletRequest request) {
+		String nm = request.getParameter("nm");
+		String addr = request.getParameter("addr");
+		String sgng = request.getParameter("sgng");
+		String id = request.getParameter("id");
+		String email = request.getParameter("email");
+		String pw = passwordEncoder.encode(request.getParameter("pw"));
+		
+		String profileImg = "0";  // 예시로 "default_profile.jpg" 사용
+	    String mbti ="what";  // 예시로 what 사용
+				
+	    MemberVO member = new MemberVO(id, pw, nm, profileImg, Integer.parseInt(sgng), mbti, 0, addr, email);
+	    	// reg_date,profile 이 0으로 들어간건가??
+		System.out.println(member);
+		try {
+			memberService.registMember(member);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "loginView";
+		}
+		return "redirect:/";
+	}
+	
+	
+}

@@ -1,0 +1,13 @@
+package com.carina.cbs.emp.web;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
+import com.carina.cbs.emp.service.EmpService;
+
+@Controller
+public class EmpController {
+	@Autowired
+	EmpService empService;
+
+}

@@ -1,0 +1,12 @@
+package com.carina.cbs.board.actboard.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.carina.cbs.board.actboard.dao.IActBoardDAO;
+
+@Service
+public class ActBoardServiceImpl implements ActBoardService {
+	@Autowired
+	IActBoardDAO dao;
+}

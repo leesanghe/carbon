@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="ConfigureProjectWizard">
+		<item key="selectedWizardId" value="org.tigris.subversion.subclipse.ui.SharingWizard"/>
+	</section>
+	<section name="SynchronizeViewSettings">
+		<item key="linkWithEditor" value="false"/>
+		<item key="lastactiveparticipant_id" value="org.tigris.subversion.subclipse.participant"/>
+		<item key="lastactiveparticipant_sec_id" value="1700556393589"/>
+		<section name="org.tigris.subversion.subclipse.participant.1698820744058">
+			<item key="org.eclipse.team.ui.P_LAST_MODELPROVIDER" value="org.eclipse.team.ui.modelprovider_compressedfolders"/>
+			<item key="org.eclipse.team.ui.P_COMMIT_SET_ENABLED" value="false"/>
+		</section>
+		<section name="org.tigris.subversion.subclipse.participant.1698981396437">
+		</section>
+		<section name="org.tigris.subversion.subclipse.participant.1698981474398">
+		</section>
+		<section name="org.tigris.subversion.subclipse.participant.1698981500775">
+		</section>
+		<section name="org.tigris.subversion.subclipse.participant.1698981995798">
+		</section>
+		<section name="org.tigris.subversion.subclipse.participant.1698996270494">
+		</section>
+		<section name="org.tigris.subversion.subclipse.participant.1698996570228">
+		</section>
+		<section name="org.tigris.subversion.subclipse.participant.1699583845853">
+		</section>
+		<section name="org.tigris.subversion.subclipse.participant.1699583882646">
+		</section>
+		<section name="org.tigris.subversion.subclipse.participant.1699583908509">
+		</section>
+		<section name="org.tigris.subversion.subclipse.participant.1699584087898">
+		</section>
+		<section name="org.tigris.subversion.subclipse.participant.1700556393589">
+			<item key="org.eclipse.team.ui.P_LAST_MODELPROVIDER" value="org.eclipse.team.ui.modelprovider_compressedfolders"/>
+			<item key="org.eclipse.team.ui.P_COMMIT_SET_ENABLED" value="false"/>
+			<item key="org.eclipse.team.ui.P_SYNCVIEWPAGE_MODE" value="4"/>
+		</section>
+	</section>
+</section>

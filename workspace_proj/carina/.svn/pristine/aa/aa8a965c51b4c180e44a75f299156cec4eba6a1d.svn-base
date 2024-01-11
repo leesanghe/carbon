@@ -1,0 +1,28 @@
+package com.carina.cbs.board.freeboard.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.carina.cbs.board.freeboard.vo.FreeBoardSearchVO;
+import com.carina.cbs.board.freeboard.vo.FreeBoardVO;
+
+/**
+ * Class Name  : IFreeBoardDAO
+ * Author      : ParkGeunHye
+ * Created Date: 2023. 11. 21.
+ * Version: 1.0
+ * Purpose:   샘플용
+ * Description: 테스트를 위한 샘플입니다.
+ */
+@Mapper
+public interface IFreeBoardDAO {
+	
+	 public List<FreeBoardVO>getfreeboardList(); 
+	public List<FreeBoardVO> searchBoardList(FreeBoardSearchVO search);
+	 public int getTotalRowCount(FreeBoardSearchVO searchVO);
+	 public int freeboardwrite(FreeBoardVO freeboard);
+	public FreeBoardVO getFreeBoard(int boardNo);
+	public int updateBoard(FreeBoardVO freeboard);
+	public int deleteBoard(int boardNo);
+}

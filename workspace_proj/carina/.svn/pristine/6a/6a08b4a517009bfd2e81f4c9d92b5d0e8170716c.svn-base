@@ -1,0 +1,12 @@
+package com.carina.cbs.member.web;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
+import com.carina.cbs.member.service.MemberService;
+
+@Controller
+public class MemberController {
+	@Autowired
+	MemberService memberService;
+}

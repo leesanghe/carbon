@@ -1,0 +1,30 @@
+package com.carina.cbs.cbsa.web;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.carina.cbs.cbsa.service.CbsaService;
+
+@Controller
+
+public class CbsaController {
+    @Autowired
+    CbsaService cbsaService;
+
+    @PostMapping("/simulinsert")
+    public String simulEndpoint(@RequestParam("price") double price, @RequestParam("euType") String euType) {
+      
+        return "cbs/simul"; 
+    }
+    
+    
+    
+
+    @GetMapping("/simul")
+    public String simulStartpoint() {
+        return "cbs/simul";
+    }
+}

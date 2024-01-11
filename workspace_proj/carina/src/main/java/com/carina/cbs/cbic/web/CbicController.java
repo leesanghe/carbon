@@ -1,0 +1,43 @@
+package com.carina.cbs.cbic.web;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.carina.cbs.cbic.service.CbicService;
+import com.carina.cbs.cbic.vo.CbicVO;
+
+@Controller
+public class CbicController {
+    
+    @Autowired
+    CbicService cbicService;
+
+    @GetMapping("/carbon")
+    public String car(Model model) {
+    
+    // 서비스를 통해 전력 예측 데이터를 가져온다
+    // 서비스 메서드에 필요한 파라미터를 전달
+
+    
+    // 년도, 탄소배출량, 목록을 뷰로 전달
+    model.addAttribute("year", cbicService.getAllYear());
+    model.addAttribute("METROS", cbicService.getAllMetro());
+    model.addAttribute("EM", cbicService.getAllEM());
+    return "cbic"; // sc
+    }
+    
+    @ResponseBody
+    @PostMapping("/getcarbon")
+    public List<CbicVO> getcarbonCities(@RequestBody CbicVO cbicVO) {
+        return cbicService.getcarbonCities(cbicVO);
+    }
+}
+

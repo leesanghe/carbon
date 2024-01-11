@@ -1,0 +1,5 @@
+package com.carina.cbs.board.news.service;
+
+public interface NewsServcie {
+
+}

@@ -1,0 +1,42 @@
+function generateUrl(ipAddress) {
+  return `http://${ipAddress}:8080/`;
+}
+
+function setShare(ipAddress) {
+  var resultImg = document.querySelector('#resultImg');
+  var resultAlt = resultImg.firstElementChild.alt;
+  const shareTitle = '환경유형 결과';
+  const shareDes = infoList[resultAlt].name;
+  const shareImage = generateUrl(ipAddress) + 'cbs/assets/img/mbti/image-' + resultAlt + '.png';
+  const shareURL = generateUrl(ipAddress) + 'cbs/page/result-' + resultAlt;
+
+  Kakao.Link.sendDefault({
+    objectType: 'feed',
+    content: {
+      title: shareTitle,
+      description: shareDes,
+      imageUrl: shareImage,
+      link: {
+        mobileWebUrl: shareURL,
+        webUrl: shareURL
+      },
+    },
+    buttons: [
+      {
+        title: '결과확인하기',
+        link: {
+          mobileWebUrl: shareURL,
+          webUrl: shareURL,
+        },
+      },
+    ],
+  });
+}
+
+// List of IP addresses
+const ipAddresses = ['127.0.0.1', '192.168.0.34', '172.20.10.5',];
+
+// Loop through each IP address and call setShare
+ipAddresses.forEach((ipAddress) => {
+  setShare(ipAddress);
+});

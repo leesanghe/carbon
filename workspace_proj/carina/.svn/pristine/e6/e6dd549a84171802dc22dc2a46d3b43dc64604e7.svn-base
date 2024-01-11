@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carina.cbs.cbic.dao.ICbicDAO">
+	<select id="getAllYear" resultType="java.lang.String">
+		select 년도
+		from carbonviusal
+		group by 1
+		order by 1 desc
+	</select>
+		<select id="getAllEM" resultType="java.lang.String">
+    SELECT 탄소배출량
+    FROM carbonviusal
+		</select>
+	<select id="getAllMetro" resultType="java.lang.String">
+    SELECT DISTINCT 시군구
+    FROM carbonviusal
+    order by 시군구
+		</select>
+		
+
+		
+	<select id="getcarbonCities" resultType="java.lang.String"
+		parameterType="CbicVO">
+		select 탄소배출량 from carbonviusal where 년도 = #{year}
+		order by 시군구
+	</select>
+</mapper>
+
+

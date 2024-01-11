@@ -1,0 +1,29 @@
+package com.carina.cbs.board.actboard.web;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.carina.cbs.board.actboard.service.ActBoardService;
+
+/**
+ * Class Name  : ActBoardController
+ * Author      : ParkGeunHye
+ * Created Date: 2023. 11. 21.
+ * Version: 1.0
+ * Purpose:   
+ * Description: 
+ */
+@Controller
+public class ActBoardController {
+	@Autowired
+	ActBoardService actboardService;
+	
+
+	@RequestMapping("/freeboardEdit") 
+	public String freeboardEdit() {
+	    return "freeboardEdit";  // View의 이름이 "freeboardEdit"일 경우
+	}
+
+	 
+}

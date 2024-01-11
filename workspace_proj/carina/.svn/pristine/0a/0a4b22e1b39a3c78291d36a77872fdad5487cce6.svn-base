@@ -1,0 +1,69 @@
+package com.carina.cbs.board.freeboard.vo;
+
+import com.carina.cbs.common.vo.PagingVO;
+
+/**
+ * Class Name  : FreeBoardSearchVO
+ * Author      : ParkGeunHye
+ * Created Date: 2023. 11. 29.
+ * Version: 1.0
+ * Purpose:   자유게시판 검색 search
+ * Description:  자유게시판 searchvo
+ */
+public class FreeBoardSearchVO  extends PagingVO {
+	private String keyword;
+	private String keywordType;
+	private String memId;
+	
+	public FreeBoardSearchVO(String keyword, String keywordType, String memId) {
+		super();
+		this.keyword = keyword;
+		this.keywordType = keywordType;
+		this.memId = memId;
+	}
+
+	public FreeBoardSearchVO() {
+		super();
+	}
+
+	public String getKeyword() {
+		return keyword;
+	}
+
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
+
+	public String getKeywordType() {
+		return keywordType;
+	}
+
+	public void setKeywordType(String keywordType) {
+		this.keywordType = keywordType;
+	}
+
+	public String getMemId() {
+		return memId;
+	}
+
+	public void setMemId(String memId) {
+		this.memId = memId;
+	}
+
+	@Override
+	public String toString() {
+		return "FreeBoardSearchVO [keyword=" + keyword + ", keywordType=" + keywordType + ", memId=" + memId + "]";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+}

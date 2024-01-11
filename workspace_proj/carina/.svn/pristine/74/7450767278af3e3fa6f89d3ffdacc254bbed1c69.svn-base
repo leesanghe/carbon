@@ -1,0 +1,117 @@
+package com.carina.cbs.board.actboard.service;
+
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.carina.cbs.board.actboard.dao.IActBoardDAO;
+import com.carina.cbs.board.actboard.vo.ActBoardVO;
+import com.carina.cbs.board.freeboard.vo.FreeBoardVO;
+
+/**
+ * Class Name  : ActBoardServiceImpl
+ * Author      : ParkGeunHye
+ * Created Date: 2023. 12. 13.
+ * Version: 1.0
+ * Purpose:   실천일지 service구현체
+ * Description: 
+ */
+@Service
+public class ActBoardServiceImpl implements ActBoardService {
+	@Autowired
+	IActBoardDAO dao;
+	
+	@Override
+	public List<ActBoardVO> getactboardList(){
+		return dao.getactboardList();
+		
+	}
+	
+	public void actboardwrite(ActBoardVO actboard) throws Exception{
+		int result = dao.actboardwrite(actboard);
+		if(result ==0) {
+			throw new Exception();
+		}
+	}
+	
+	public ActBoardVO getActBoard(int boardNo) throws Exception{
+		ActBoardVO result = dao.getActBoard(boardNo);
+		if(result == null) {
+			throw new Exception();
+		}
+		return result;
+	}
+	
+	//수정
+	public void updateactBoard(ActBoardVO actboard) throws Exception{
+		int result = dao.updateactBoard(actboard);
+		if(result == 0) {
+			throw new Exception();
+		}
+	}
+	
+	//삭제
+
+	
+	public void deleteactBoard(int boardNo) throws Exception {
+	
+			//게시글 삭제
+			int result = dao.deleteactBoard(boardNo);
+			if(result ==0) {
+		}
+			throw new Exception();
+		}
+	
+
+	//이미지파일 삭제하는 메서드
+//	private void deleteImageFile(String imagePath) {
+//        if (imagePath != null && !imagePath.isEmpty()) {
+//            File imageFile = new File( imagePath);
+//            if (imageFile.exists()) {
+//                boolean deleted = imageFile.delete();
+//                if (!deleted) {
+//                    // 이미지 파일 삭제 실패 처리
+//                    // 로깅 등을 통해 에러를 기록할 수 있습니다.
+//                    // 예외를 던지거나 적절한 방식으로 처리할 수 있습니다.
+//                }
+//            }
+//        }
+//    }
+
+	
+	//실천일지 사진업로드부분
+	public String uploadProfile(ActBoardVO actBoardVO, String uploadDir, String webPath, MultipartFile file) throws Exception {
+        try {
+            String originFilename = file.getOriginalFilename();
+            // 서버에 저장되는 파일명(중복을 방지하기 위해 유니크한 이름 생성)
+            String storedFilename = UUID.randomUUID().toString() + "_" + originFilename;
+            String dbFilePath = webPath + storedFilename;
+            Path filePath = Paths.get(uploadDir, storedFilename);
+
+            Files.copy(file.getInputStream(), filePath);
+
+            // 여기서 DAO를 이용하여 ActBoardVO를 DB에 저장하는 로직을 수행합니다.
+            
+     
+            int result = dao.uploadImage(actBoardVO);
+
+            if (result == 0) {
+                throw new Exception("Failed to save the file information to the database.");
+            }
+
+            return dbFilePath;
+        } catch (Exception e) {
+            throw new Exception("Failed to upload profile image.", e);
+        }
+	
+	}
+	
+}

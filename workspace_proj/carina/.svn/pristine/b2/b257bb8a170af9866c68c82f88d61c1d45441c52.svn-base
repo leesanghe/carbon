@@ -1,0 +1,50 @@
+package com.carina.cbs.board.actboard.web;
+
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.carina.cbs.board.actboard.service.ActBoardService;
+import com.carina.cbs.board.actboard.vo.ActBoardVO;
+
+/**
+ * Class Name  : ActBoardController
+ * Author      : ParkGeunHye
+ * Created Date: 2023. 11. 21.
+ * Version: 1.0
+ * Purpose:   
+ * Description: 
+ */
+@Controller
+public class ActBoardController {
+	@Autowired
+	ActBoardService actboardService;
+	
+	@RequestMapping("/actboard")
+	public String actboard(Model model, HttpSession session) {
+		List<ActBoardVO> actboardList = actboardService.getactboardList();
+		model.addAttribute("actboardList", actboardList);
+		return "/actboard";
+	}
+	
+	@RequestMapping("/actboardwrite")
+	public String actboardwrite(HttpSession session, Model model) {
+		if(session.getAttribute("login") == null){
+			return "redirect:/loginview";
+	}
+		return "/actboardwrite";
+	}
+	/*
+	 * @RequestMapping("/actdetail") public String actdetail( ) { return
+	 * "/actdetail"; // View의 이름이 "freeboardEdit"일 경우 }
+	 */
+
+	 
+	
+
+}

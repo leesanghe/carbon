@@ -1,0 +1,68 @@
+package com.carina.cbs.cbsa.service;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.carina.cbs.cbsa.vo.CbsaVO;
+
+@Service
+public class CbsaServiceImpl implements CbsaService {
+
+    @Override
+    public double calculateCarbonCheck(double price) {
+        // Placeholder logic for calculating carbon check
+        // Replace this with your actual calculation logic
+        return price * 0.1; // For example, carbon check is 10% of the price
+    }
+
+    @Override
+    public String calculateTree(String euType) {
+        // Placeholder logic for calculating tree value based on euType
+        // Replace this with your actual calculation logic
+        return "Tree calculation based on euType: " + euType;
+    }
+
+
+
+	@Override
+	public void processFormData(String elecCo2, String gasCo2, String waterCo2, String carCo2, String elecTree,
+			String gasTree, String waterTree, String carTree, String memberTotalCo2, String memberTotalTree) {
+		   System.out.println("Processing Form Data:");
+	        System.out.println("Electric CO2: " + elecCo2);
+	        System.out.println("Gas CO2: " + gasCo2);
+	        System.out.println("Water CO2: " + waterCo2);
+	        System.out.println("Car CO2: " + carCo2);
+	        System.out.println("Electric Tree: " + elecTree);
+	        System.out.println("Gas Tree: " + gasTree);
+	        System.out.println("Water Tree: " + waterTree);
+	        System.out.println("Car Tree: " + carTree);
+	        System.out.println("Member Total CO2: " + memberTotalCo2);
+	        System.out.println("Member Total Tree: " + memberTotalTree);
+		
+	}
+
+	@Override
+	public void processUpdateData(int resultIdx, String elecCo2, String gasCo2, String waterCo2, String carCo2,
+			String elecTree, String gasTree, String waterTree, String carTree, String memberTotalCo2,
+			String memberTotalTree) {
+		   System.out.println("Processing Form Data:");
+	        System.out.println("Electric CO2: " + elecCo2);
+	        System.out.println("Gas CO2: " + gasCo2);
+	        System.out.println("Water CO2: " + waterCo2);
+	        System.out.println("Car CO2: " + carCo2);
+	        System.out.println("Electric Tree: " + elecTree);
+	        System.out.println("Gas Tree: " + gasTree);
+	        System.out.println("Water Tree: " + waterTree);
+	        System.out.println("Car Tree: " + carTree);
+	        System.out.println("Member Total CO2: " + memberTotalCo2);
+	        System.out.println("Member Total Tree: " + memberTotalTree);
+		
+	}
+
+	@Override
+	public List<CbsaVO> getcount(CbsaVO cbsaVO) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+}

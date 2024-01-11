@@ -1,0 +1,12 @@
+package com.carina.cbs.cbs.cbs.web;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
+import com.carina.cbs.cbs.cbs.service.CbsService;
+
+@Controller
+public class CbsController {
+	@Autowired
+	CbsService cbsService;
+}

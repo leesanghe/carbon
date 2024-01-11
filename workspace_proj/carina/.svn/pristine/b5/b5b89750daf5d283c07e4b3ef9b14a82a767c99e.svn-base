@@ -1,0 +1,13 @@
+package com.carina.cbs.mbti.web;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
+import com.carina.cbs.mbti.service.MbtiService;
+
+@Controller
+public class MbtiController {
+	@Autowired
+	MbtiService mbtiService;
+
+}

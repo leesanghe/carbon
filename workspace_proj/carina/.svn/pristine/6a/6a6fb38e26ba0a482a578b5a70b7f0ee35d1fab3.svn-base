@@ -1,0 +1,7 @@
+package com.carina.cbs.cbs.cbs.service;
+
+public interface CbsService {
+	   double calculateCarbonEmission(double electricityUsage);
+
+	    double calculateTreesToPlant(double carbonEmission);
+}

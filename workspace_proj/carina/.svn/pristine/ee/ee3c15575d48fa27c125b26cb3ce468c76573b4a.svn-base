@@ -1,0 +1,48 @@
+package com.carina.cbs.board.actboard.web;
+
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.carina.cbs.board.actboard.service.ActBoardService;
+import com.carina.cbs.board.actboard.vo.ActBoardVO;
+
+@RestController
+@RequestMapping("/app/actboard")
+public class ActBoardRestController {
+    @Autowired
+    ActBoardService actboardService;
+
+    @GetMapping
+    public ResponseEntity<List<ActBoardVO>> actboard() {
+        List<ActBoardVO> actboardList = actboardService.getactboardList();
+        return ResponseEntity.ok(actboardList);
+    }
+
+    @PostMapping("/actboardwrite")
+    public ResponseEntity<String> actBoardWrite(@RequestBody ActBoardVO actBoard, HttpSession session) {
+        try {
+            if (actBoard == null) {
+                // 클라이언트에서 올바른 데이터를 보내지 않은 경우
+                return new ResponseEntity<>("Invalid data", HttpStatus.BAD_REQUEST);
+            }
+            actboardService.actboardwrite(actBoard);
+
+            // 성공적으로 게시글을 작성하면 "Success" 문자열을 반환
+            return new ResponseEntity<>("Success", HttpStatus.OK);
+        } catch (Exception e) {
+            // 게시글 작성 중 오류가 발생하면 500 Internal Server Error 상태 코드 반환
+            return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+}

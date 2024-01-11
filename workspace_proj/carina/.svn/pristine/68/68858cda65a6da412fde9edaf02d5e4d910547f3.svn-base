@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carina.cbs.cbs.cbs.dao.ICbsDAO">
+   	<select id="getTotalUseAndTree" resultType="CbsVO" parameterType="CbsVO">
+		SELECT
+			total_amount ,
+			total_tree
+		FROM TB_USE_OF_FURNITURE a
+		WHERE
+		house = #{house}
+		AND
+		area = #{area}
+		AND
+		personnel = #{personnel}
+    </select> 
+
+</mapper>

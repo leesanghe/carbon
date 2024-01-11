@@ -1,0 +1,231 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page session="false"%>
+<html>
+<head>
+<title>CARINA - carbon reduce now</title>
+<link
+	href="${pageContext.request.contextPath}/resources/css/neumorphism.css"
+	rel='stylesheet'>
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+</head>
+
+<body>
+	<%@include file="/WEB-INF/inc/top.jsp"%>
+	<!-- 년도 선택 -->
+	<div style="margin-top: 120px;" class="btn-group mb-2 mr-2">
+		<label for="yearclick" class="my-1 mr-2 ml-2-u"></label> <select
+			id="yearclick" class="custom-select my-1 mr-sm-2">
+
+			<c:forEach var="yearbox" items="${year}">
+				<option value="${yearbox}" ${yearbox eq year ? 'selected' : ''}>${yearbox}</option>
+			</c:forEach>
+		</select>
+	</div>
+
+	<!-- Display total carbon emissions -->
+	<div class="row mb-5-updated">
+		<div class="col-12 col-md-6 col-lg-6 mb-5 mb-lg-0 mx-auto">
+			<div class="card bg-primary shadow-inset border-light p-4">
+				<!-- Header -->
+				<div id="totalCarbonEmissionsContainer" class="card-body">
+					<ul class="list-unstyled mb-4">
+
+						<li class="list-item pb-2"><img
+							src="${pageContext.request.contextPath}/assets/img/carbon/co2.png"
+							width="150px" height="150px">
+							<h3>
+								<strong>총 배출량:</strong>
+							</h3> <span id="totalCarbonEmissions" class="highlight"></span>
+							<h3>(tonCO2eq)</h3></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="col-12 col-md-6 col-lg-6 mb-5 mb-lg-0 mx-auto">
+			<div class="card bg-primary shadow-inset border-light p-4">
+				<!-- Header -->
+				<div id="totalabsorptionContainer" class="card-body">
+					<ul class="list-unstyled mb-4">
+						<li class="list-item pb-2"><img
+							src="${pageContext.request.contextPath}/assets/img/carbon/tree.png"
+							width="150px" height="150px">
+							<h3>
+								<strong>산림흡수량:</strong>
+							</h3> <span id="totalabsorption" class="highlight"></span>
+							<h3>(tonCO2eq)</h3></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+		<div class="row">
+			<section class="page-section col-lg-6" id="contact"
+				style="margin-top: 20px;">
+				<canvas id="myChart" class="card bg-primary shadow-soft border-light" style="width: 100%" height="700px"></canvas>
+			</section>
+			<div class="col-lg-6">
+				<!-- 두 번째 열에 테이블 추가 -->
+				<div id="tableContainer" style="margin-top: 20px;">
+					<table id="dataTable" class="table shadow-soft rounded">
+						<thead>
+							<tr>
+								<th>도시</th>
+								<th>탄소배출량 (tonCO2eq)</th>
+								<th>탄소흡수량 (tonCO2eq)</th>
+								<th>총계 (tonCO2eq)</th>
+							</tr>
+						</thead>
+						<tbody>
+							<!-- Data will be dynamically added here -->
+						</tbody>
+					</table>
+				</div>
+			</div>	
+		</div>
+
+</body>
+
+
+<!-- ... (previous code) ... -->
+
+<!-- ... (previous code) ... -->
+
+<script>
+    $(document).ready(function () {
+        // Declare a global variable to store the chart reference
+        var myChart;
+
+        var populateData = function (data) {
+            var canvas = document.getElementById('myChart');
+            var ctx = canvas.getContext('2d');
+
+            if (myChart) {
+                myChart.destroy();
+            }
+
+            var carbonValues = data.map(entry => entry.carbonEmissions);
+            var absorptionValues = data.map(entry => entry.carbonAbsorption);
+            var electricValues = data.map(entry => entry.electricity);
+            var gasValues = data.map(entry => entry.greenhouseGas);
+            var totalValues = data.map(entry => entry.total);
+            var cityLabels = data.map(entry => entry.city);
+
+            myChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: cityLabels,
+                    datasets: [
+                        {
+                            label: '탄소배출량(tonCO2eq)',
+                            data: carbonValues,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: '탄소흡수량(tonCO2eq)',
+                            data: absorptionValues,
+                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: '전기(tonCO2eq)',
+                            data: electricValues,
+                            backgroundColor: 'rgba(255, 205, 86, 0.2)',  // Change this color
+                            borderColor: 'rgba(255, 205, 86, 1)',       // Change this color
+                            borderWidth: 1
+                        },
+                        {
+                            label: '가스(tonCO2eq)',
+                            data: gasValues,
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',  // Change this color
+                            borderColor: 'rgba(54, 162, 235, 1)',       // Change this color
+                            borderWidth: 1
+                        },
+                        {
+                            label: '총계(tonCO2eq)',
+                            data: totalValues,
+                            backgroundColor: 'rgba(255, 105, 86, 0.2)',
+                            borderColor: 'rgba(255, 105, 86, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            var tableBody = $('#dataTable tbody');
+            tableBody.empty();
+
+            for (var i = 0; i < cityLabels.length; i++) {
+                var row = $('<tr>').append(
+                    $('<td>').text(cityLabels[i]),
+                    $('<td>').text(carbonValues[i] + ' (tonCO2eq)'),
+                    $('<td>').text(absorptionValues[i] + ' (tonCO2eq)'),
+                    $('<td>').text(totalValues[i] + ' (tonCO2eq)')
+                );
+                tableBody.append(row);
+            }
+
+            // Calculate and display total carbon emissions and absorption
+            var totalCarbonEmissions = carbonValues.reduce(function (sum, value) {
+                return sum + value;
+            }, 0);
+            var totalCarbonAbsorption = absorptionValues.reduce(function (sum, value) {
+                return sum + value;
+            }, 0);
+
+            $('#totalCarbonEmissions').text(totalCarbonEmissions);
+            $('#totalabsorption').text(totalCarbonAbsorption); // Update the ID to match the HTML
+        };
+
+        $('#yearclick').change(function () {
+            var selectedYear = $('#yearclick').val();
+
+            console.log("Selected Year: " + selectedYear);
+
+            var json_data = {
+                year: selectedYear
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: '<c:url value="/getcarbon" />',
+                dataType: 'json',
+                contentType: 'application/json',
+                data: JSON.stringify(json_data),
+                success: function (data) {
+                    console.log(data);
+
+                    // Call the populateData function
+                    populateData(data);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Failed:', error);
+                    console.log(xhr.responseText);
+                }
+            });
+        });
+    });
+</script>
+<!-- ... (remaining code) ... -->
+
+<!-- ... (remaining code) ... -->
+
+</body>
+</html>

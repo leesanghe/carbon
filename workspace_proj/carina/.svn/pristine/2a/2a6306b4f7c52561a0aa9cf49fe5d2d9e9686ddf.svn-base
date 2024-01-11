@@ -1,0 +1,16 @@
+package com.carina.cbs.cbic.service;
+
+import java.util.List;
+
+import com.carina.cbs.cbi.vo.CbiVO;
+import com.carina.cbs.cbic.vo.CbicVO;
+
+public interface CbicService {
+	
+	List<Integer> getAllYear();
+	 List<Double> getAllEM();
+	 List<String> getAllMetro();
+	List<String> getcarbonCities(CbicVO cbicVO);
+
+
+}

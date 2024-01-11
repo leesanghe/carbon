@@ -1,0 +1,89 @@
+/*
+* Noto Sans KR (korean) http://www.google.com/fonts/earlyaccess
+ */
+
+@font-face {
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 100;
+    src: url(/cbs/images/font/NotoSansKR-Thin.woff2) format('woff2'),
+    url(/cbs/images/font/NotoSansKR-Thin.woff) format('woff'),
+    url(/cbs/images/font/NotoSansKR-Thin.otf) format('opentype');
+}
+@font-face {
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 300;
+    src: url(/cbs/images/font/NotoSansKR-Light.woff2) format('woff2'),
+    url(/cbs/images/font/NotoSansKR-Light.woff) format('woff'),
+    url(/cbs/images/font/NotoSansKR-Light.otf) format('opentype');
+}
+@font-face {
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 400;
+    src: url(/cbs/images/font/NotoSansKR-Regular.woff2) format('woff2'),
+    url(/cbs/images/font/NotoSansKR-Regular.woff) format('woff'),
+    url(/cbs/images/font/NotoSansKR-Regular.otf) format('opentype');
+}
+@font-face {
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 500;
+    src: url(/cbs/images/font/NotoSansKR-Medium.woff2) format('woff2'),
+    url(/cbs/images/font/NotoSansKR-Medium.woff) format('woff'),
+    url(/cbs/images/font/NotoSansKR-Medium.otf) format('opentype');
+}
+@font-face {
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 700;
+    src: url(/cbs/images/font/NotoSansKR-Bold.woff2) format('woff2'),
+    url(/cbs/images/font/NotoSansKR-Bold.woff) format('woff'),
+    url(/cbs/images/font/NotoSansKR-Bold.otf) format('opentype');
+}
+@font-face {
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 900;
+    src: url(/cbs/images/font/NotoSansKR-Black.woff2) format('woff2'),
+    url(/cbs/images/font/NotoSansKR-Black.woff) format('woff'),
+    url(/cbs/images/font/NotoSansKR-Black.otf) format('opentype');
+}
+
+/*지마켓 산스*/
+@font-face {
+    font-family: 'GmarketSans';
+    font-style: normal;
+    font-weight: 200;
+    src: local('GmarketSans'),
+        url('/cbs/images/font/GmarketSansLight.woff2') format('woff2'), 
+        url('/cbs/images/font/GmarketSansLight.woff') format('woff'),
+        url('/cbs/images/font/GmarketSansLight.ttf') format('truetype'),
+        url('/cbs/images/font/GmarketSansLight.otf') format('opentype'),
+        url('/cbs/images/font/GmarketSansLight.eot') format('embedded-opentype');
+}
+
+@font-face {
+    font-family: 'GmarketSans';
+    font-style: normal;
+    font-weight: 400;
+    src: local('GmarketSans'),
+        url('/cbs/images/font/GmarketSansMedium.woff2') format('woff2'), 
+        url('/cbs/images/font/GmarketSansMedium.woff') format('woff'),
+        url('/cbs/images/font/GmarketSansMedium.ttf') format('truetype'),
+        url('/cbs/images/font/GmarketSansMedium.otf') format('opentype'),
+        url('/cbs/images/font/GmarketSansMedium.eot') format('embedded-opentype');
+}
+
+@font-face {
+    font-family: 'GmarketSans';
+    font-style: normal;
+    font-weight: 700;
+    src: local('GmarketSans'),
+        url('/cbs/images/font/GmarketSansBold.woff2') format('woff2'), 
+        url('/cbs/images/font/GmarketSansBold.woff') format('woff'),
+        url('/cbs/images/font/GmarketSansBold.ttf') format('truetype'),
+        url('/cbs/images/font/GmarketSansBold.otf') format('opentype'),
+        url('/cbs/images/font/GmarketSansBold.eot') format('embedded-opentype');
+}

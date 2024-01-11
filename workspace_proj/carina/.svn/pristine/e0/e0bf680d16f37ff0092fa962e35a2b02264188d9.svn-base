@@ -1,0 +1,101 @@
+package com.carina.cbs.board.freeboard.web;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.carina.cbs.board.freeboard.service.FreeBoardService;
+import com.carina.cbs.board.freeboard.vo.FreeBoardSearchVO;
+import com.carina.cbs.board.freeboard.vo.FreeBoardVO;
+import com.carina.cbs.member.vo.MemberVO;
+
+/**
+ * Class Name : FreeBoardController Author : ParkGeunHye Created Date: 2023. 11.
+ * 29. Version: 1.0 Purpose: 자유게시판 controller Description: 자유게시판 controller부분
+ */
+@Controller
+public class FreeBoardController {
+	@Autowired
+	FreeBoardService freeboardService;
+
+	@RequestMapping("/freeboard")
+	public String freeboard(Model model, HttpSession session) {
+		List<FreeBoardVO> freeboardList = freeboardService.getfreeboardList();
+		model.addAttribute("freeboardList", freeboardList);
+		return "/freeboard";
+	}
+
+//	
+	@RequestMapping("/freeboardwrite")
+	public String freeboardwrite(HttpSession session, Model model) {
+		if (session.getAttribute("login") == null) {
+			return "redirect:/loginview";
+		}
+//		 // 현재 시간을 가져오기
+//        Date currentDate = new Date();
+//
+//        // SimpleDateFormat을 사용하여 원하는 형식으로 포맷팅
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        String formattedDate = dateFormat.format(currentDate);
+//        model.addAttribute("now", formattedDate);
+
+		return "/freeboardwrite";
+	}
+
+	@RequestMapping("/freeboardwriteDo")
+	public String freeboardwrite(FreeBoardVO freeboard, HttpSession session) throws Exception {
+		MemberVO login = (MemberVO) session.getAttribute("login");
+		freeboard.setMemId(login.getMemId());
+		freeboardService.freeboardwrite(freeboard);
+		return "redirect:/freeboard";
+	}
+
+	
+	 @RequestMapping("/freeboardDetail") 
+	 public String freeboardDetail(Model model, int boardNo) throws Exception{ 
+		 FreeBoardVO freeboardVO =freeboardService.getFreeBoard(boardNo); 
+		 model.addAttribute("freeboard", freeboardVO);
+		 
+	 return "/freeboardDetail"; 
+	 }
+	 
+
+	 @RequestMapping("/freeboardEdit")
+	  public String freeboardEdit(Model model,int boardNo) throws Exception{ 
+		 FreeBoardVO freeboardVO = freeboardService.getFreeBoard(boardNo);
+		 model.addAttribute("freeboard", freeboardVO);
+	  
+	  return "/freeboardEdit";
+	 
+	  }
+	
+	 @PostMapping("/freeboardEditDo")
+		public String freeboardEditDo(FreeBoardVO freeboard) throws Exception {
+			freeboardService.updateBoard(freeboard);
+			return "redirect:/freeboard";
+		}
+		@PostMapping("/freeboardDel")
+		public String freeboardDel(int boardNo) throws Exception {
+			freeboardService.deleteBoard(boardNo);
+			return "redirect:/freeboard";
+		}
+		
+	/*
+	 * @RequestMapping("/searchBoard") public String searchBoard(Model model,
+	 * FreeBoardSearchVO searchVO) { List<FreeBoardVO> boardList =
+	 * freeboardService.getBoardList(searchVO); model.addAttribute("boardList",
+	 * boardList); model.addAttribute("searchVO", searchVO); // 검색 조건을 다시 전달 return
+	 * "board/boardView"; }
+	 */
+	 
+}

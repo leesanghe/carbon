@@ -1,0 +1,46 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>    
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+	h1{
+		text-align: center;
+	}
+</style>
+	
+<meta charset="UTF-8">
+<title>회원조회</title>
+
+</head>
+<body>
+	<%@include file="/WEB-INF/inc/top.jsp"%>
+	
+	<div>
+    <h2>회원 정보</h2>
+    
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>이름</th>
+                <th>이메일</th>
+                <!-- 필요한 다른 컬럼들 추가 -->
+            </tr>
+        </thead>
+        <tbody>
+            <c:forEach var="member" items="${members}">
+                <tr>
+                    <td>${member.memId}</td>
+                    <td>${member.memNm}</td>
+                    <td>${member.email}</td>
+                    <!-- 필요한 다른 컬럼들 추가 -->
+                </tr>
+            </c:forEach>
+        </tbody>
+    </table>
+</div>	
+
+	<%@include file="/WEB-INF/inc/footer.jsp"%>
+</body>
+</html>

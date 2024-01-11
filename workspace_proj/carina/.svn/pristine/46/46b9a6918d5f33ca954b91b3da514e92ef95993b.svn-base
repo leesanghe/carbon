@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carina.cbs.cbic.dao.ICbicDAO">
+
+    <select id="getAllYear" resultType="String">
+        select year
+        from carbonviusalT
+        group by 1
+        order by 1 desc
+    </select>
+
+    <select id="getAllEM" resultType="CbicVO">
+        SELECT carbonEmissions
+        FROM carbonviusalT
+    </select>
+
+    <select id="getAllMetro" resultType="CbicVO">
+        SELECT DISTINCT city
+        FROM carbonviusalT
+        order by city
+    </select>
+
+    <select id="getcarbonCities" resultType="CbicVO" parameterType="java.util.Map">
+   
+   		 select *
+		from carbonviusalT
+		where year=#{year}
+</select>
+
+
+</mapper>

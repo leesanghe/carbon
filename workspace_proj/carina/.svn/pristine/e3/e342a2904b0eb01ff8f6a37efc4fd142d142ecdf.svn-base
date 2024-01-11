@@ -1,0 +1,14 @@
+package com.carina.cbs.member.dao;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.carina.cbs.member.vo.MemberVO;
+
+
+@Mapper
+public interface IMemberDAO {
+		
+	public int registMember(MemberVO member);
+	public MemberVO loginMember(MemberVO member);
+	public MemberVO loginMember(String email, String memPw);
+}

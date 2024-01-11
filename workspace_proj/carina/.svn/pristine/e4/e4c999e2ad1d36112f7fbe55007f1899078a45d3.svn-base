@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carina.cbs.emp.dao.IEmpDAO">
+
+    <select id="getAllCities" resultType="java.lang.String">
+        SELECT DISTINCT city 
+        FROM TB_ELECTRICITY_CONSUMPTION
+    </select>
+	
+	<select id="getAllYears" resultType="java.lang.String">
+        SELECT DISTINCT year 
+        FROM TB_ELECTRICITY_CONSUMPTION
+    </select>
+	
+	<select id="getAllMetros" resultType="java.lang.String">
+        SELECT DISTINCT metro 
+        FROM TB_ELECTRICITY_CONSUMPTION
+    </select>
+
+	<select id="getCitiesByYearAndMetro" resultType="String" parameterType="EmpVO">
+		select DisTinct city
+		from TB_ELECTRICITY_CONSUMPTION 
+		where year = #{year} AND
+	    metro = #{metro}
+    </select>
+	
+</mapper>

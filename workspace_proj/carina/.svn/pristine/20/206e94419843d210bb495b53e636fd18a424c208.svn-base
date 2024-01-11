@@ -1,0 +1,89 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>동네 전력 예측</title>
+
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+</head>
+<body>
+
+
+
+  <%@include file="/WEB-INF/inc/top.jsp" %>
+
+    <div style="margin-top: 120px;"> <!-- Adjust the value based on your navigation bar's height -->
+        <!-- 년도 선택 -->
+        <label for="yearSelect">년도 선택: </label>
+        <select id="yearSelect">
+            <c:forEach var="yearItem" items="${years}">
+                <option value="${yearItem}" ${yearItem eq year ? 'selected' : ''}>${yearItem}</option>
+            </c:forEach>
+        </select>
+
+        <!-- 지역 시 선택 -->
+        <label for="metroSelect">지역 시 선택: </label>
+        <select id="metroSelect" >
+            <c:forEach var="metroItem" items="${metros}">
+                <option value="${metroItem}" ${metroItem eq metro ? 'selected' : ''}>${metroItem}</option>
+            </c:forEach>
+        </select>
+
+        <!-- 지역(군,구) 선택 -->
+        <label for="citySelect">지역(군,구) 선택: </label>
+        <select id="citySelect">
+            <c:forEach var="cityItem" items="${cities}">
+                <option value="${cityItem}" ${cityItem eq city ? 'selected' : ''}>${cityItem}</option>
+            </c:forEach>
+        </select>
+
+
+
+    </div>
+
+<script>
+	$(document).ready(function () {
+	    // 셀렉트 박스의 값이 변경될 때 이벤트 리스너 등록
+	    $('#yearSelect, #metroSelect, #citySelect').change(function () {
+	        // 각 셀렉트 박스의 선택된 값 가져오기
+	        var selectedYear = $('#yearSelect').val();
+	        var selectedMetro = $('#metroSelect').val();
+	        var selectedCity = $('#citySelect').val();
+	
+	        // 콘솔에 출력
+	        console.log("Selected Year: " + selectedYear);
+	        console.log("Selected Metro: " + selectedMetro);
+	        console.log("Selected City: " + selectedCity);
+	
+	        // AJAX를 이용하여 서버로 도시 목록을 요청
+	        $.ajax({
+	            type: 'GET',
+	            url: '<c:url value="/api/getSubCodes" />',
+	            dataType : 'json',
+	            data: {
+	                year: selectedYear,
+	                metro: selectedMetro
+	            },
+	            success: function (data) {
+	               
+	                var citySelect = $('#citySelect');
+	                citySelect.empty(); 
+	                $.each(data, function (index, city) {
+	                    citySelect.append('<option value="' + city + '">' + city + '</option>');
+	                });
+	            },
+	            error: function () {
+	                console.error('Failed to get city data.');
+	            }
+	        });
+	    });
+	});
+</script>
+
+    <%@include file="/WEB-INF/inc/footer.jsp" %>
+
+</body>
+</html>

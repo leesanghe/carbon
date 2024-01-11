@@ -1,0 +1,37 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
+<html>
+<head>
+<title>Kakao User Info</title>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<script>
+        $(document).ready(function(){
+                var accessToken = '${token}'; // 서버에서 전달된 액세스 토큰
+                console.log(accessToken);
+                $.ajax({
+                    url: 'https://kapi.kakao.com/v2/user/me',
+                    type: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + accessToken,
+                        'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        $("#userInfo").text(JSON.stringify(response));
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+        });
+    </script>
+</head>
+<body>
+	<div id="userInfo"></div>
+</body>
+
+</html>

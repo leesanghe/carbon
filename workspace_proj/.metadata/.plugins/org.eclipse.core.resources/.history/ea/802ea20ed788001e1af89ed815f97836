@@ -1,0 +1,5 @@
+package com.carina.cbs.emp.vo;
+
+public class EmpVO {
+
+}

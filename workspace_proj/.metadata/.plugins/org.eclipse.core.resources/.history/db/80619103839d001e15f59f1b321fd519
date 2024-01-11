@@ -1,0 +1,306 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>동네 전력 예측</title>
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/button2.css">
+</head>
+
+
+
+
+<body>
+	<%@include file="/WEB-INF/inc/top.jsp"%>
+<div class="container mt-7 text-center">
+    <div class="col-md-12 mb-5">
+        <h1 class="display-2">
+            <strong>우리 동네 전력량 예측하기</strong>
+        </h1>
+    </div>
+
+    <!-- 년도, 지역 시, 지역(군,구) 선택 -->
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-10 col-lg-10 mb-5">
+            <div class="alert shadow-soft rounded d-flex align-items-center justify-content-around p-4" style="max-width: 900px;">
+
+                <!-- 년도 선택 -->
+                <div class="alert-inner--text">
+                    <label for="yearSelect"><h6>년도 선택:</h6></label>
+                    <select id="yearSelect" class="btn btn-sm btn-primary">
+                        <c:forEach var="yearItem" items="${years}">
+                            <option value="${yearItem}" ${yearItem eq year ? 'selected' : ''}>${yearItem}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+
+                <!-- 지역 시 선택 -->
+                <div class="alert-inner--text">
+                    <label for="metroSelect"><h6>지역 시 선택:</h6></label>
+                    <select id="metroSelect" class="btn btn-sm btn-primary">
+                        <c:forEach var="metroItem" items="${metros}">
+                            <option value="${metroItem}" ${metroItem eq metro ? 'selected' : ''}>${metroItem}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+
+                <!-- 지역(군,구) 선택 -->
+                <div class="alert-inner--text">
+                    <label for="citySelect"><h6>지역(군,구) 선택:</h6></label>
+                    <select id="citySelect" class="btn btn-sm btn-primary">
+                        <c:forEach var="cityItem" items="${cities}">
+                            <option value="${cityItem}" ${cityItem eq city ? 'selected' : ''}>${cityItem}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <canvas id="monthlyChart" class="card bg-primary shadow-soft border-light mx-auto" style="width: 1000px; height: 500px; margin-bottom: 50px;"></canvas>
+
+    <label for="goalPercentageSelect"><h4><strong>목표량 설정하기:</strong></h4></label>
+    <select id="goalPercentageSelect" class="btn btn-sm btn-primary" style="margin-left: 20px;">
+        <option value="10">10%</option>
+        <option value="20">20%</option>
+        <option value="30">30%</option>
+    </select>
+
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-10 mt-4 mb-5">
+            <div class="card bg-primary shadow-soft border-light">
+                <div class="card-body p-5">
+                    <p id="predictionInfo"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a class="btn-3d blue" href="#" id="moveToOtherPage">보고서 페이지 이동</a>
+</div>
+
+
+	<script>
+	    $(document).ready(function() {
+	        var selectedYear, selectedMetro, selectedCity;
+	        // 초기 그래프 생성
+	        var monthlyChart = createChart([], [], []);
+	
+	        // 셀렉트 박스의 값이 변경될 때 이벤트 리스너 등록
+	        $('#yearSelect, #metroSelect, #citySelect').change(function() {
+	            // 각 셀렉트 박스의 선택된 값 가져오기
+	            selectedYear = $('#yearSelect').val();
+	            selectedMetro = $('#metroSelect').val();
+	            selectedCity = $('#citySelect').val();
+	
+	            // 콘솔에 출력
+	            console.log("Selected Year: " + selectedYear);
+	            console.log("Selected Metro: " + selectedMetro);
+	            console.log("Selected City: " + selectedCity);
+	
+	            var json_data = {
+	                year: selectedYear,
+	                metro: selectedMetro
+	            };
+	
+	            // AJAX를 이용하여 서버로 도시 목록을 요청
+	            $.ajax({
+	                type: 'POST',
+	                url: '<c:url value="/getCities" />',
+	                dataType: 'json',
+	                contentType: 'application/json',
+	                data: JSON.stringify(json_data),
+	                success: function(data) {
+	                    console.log(data);
+	                    var citySelect = $('#citySelect');
+
+	
+	                    citySelect.empty();
+	                    $.each(data, function(index, city) {
+	                        citySelect.append('<option value="' + city + '">' + city + '</option>');
+	                    });
+	
+
+	        
+	                    citySelect.val(selectedCity);
+	                    
+	
+	                    // 그래프 업데이트 함수 호출
+	                    updateChart(monthlyChart, selectedYear, selectedMetro, selectedCity);
+	                },
+	                error: function() {
+	                    console.error('Failed to get city data.');
+	                }
+	            });
+	        });
+	
+	        // 초기 그래프 생성 함수
+	        function createChart(labels, data, predictedData) {
+	            var ctx = document.getElementById('monthlyChart').getContext('2d');
+	            var chart = new Chart(ctx, {
+	                type: 'line',
+	                data: {
+	                    labels: labels,
+	                    datasets: [{
+	                            label: '월별 전력 소비량',
+	                            data: data,
+	                            borderColor: 'rgba(75, 192, 192, 1)',
+	                            borderWidth: 1,
+	                            fill: false
+	                        },
+	                        {
+	                            label: '예측된 전력 소비량',
+	                            data: predictedData,
+	                            borderColor: 'rgba(255, 99, 132, 1)',
+	                            borderWidth: 1,
+	                            fill: false
+	                        }
+	                    ]
+	                },
+	                options: {
+	                    scales: {
+	                        x: [{
+	                            type: 'category',
+	                            labels: labels
+	                        }],
+	                        y: [{
+	                            ticks: {
+	                                beginAtZero: true
+	                            }
+	                        }]
+	                    }
+	                }
+	            });
+	
+	            return chart;
+	        }
+	
+	        // 그래프 업데이트 함수
+	        function updateChart(chart, year, metro, city) {
+	            var json_data = {
+	                year: year,
+	                metro: metro,
+	                city: city
+	            };
+	
+	            // AJAX를 이용하여 서버로 월별 데이터 요청
+	            $.ajax({
+	                type: 'POST',
+	                url: '<c:url value="/getMonthData" />',
+	                dataType: 'json',
+	                contentType: 'application/json',
+	                data: JSON.stringify(json_data),
+	                success: function(data) {
+	                    console.log(data);
+	
+	                    // 기존 데이터 초기화
+	                    chart.data.labels = [];
+	                    chart.data.datasets[0].data = [];
+	                    chart.data.datasets[1].data = [];
+	                   
+	
+	                    // 새로운 데이터로 업데이트
+	                    chart.data.labels = data.predictedMonths;
+	                    chart.data.datasets[0].data = data.data;
+	                    chart.data.datasets[1].data = data.predictedPowerUsage;
+	
+	                    // 그래프 업데이트
+	                    chart.update();
+	                },
+	                error: function() {
+	                    console.error('Failed to get month data.');
+	                }
+	            });
+	        }
+	
+	        // 목표량 선택 시 전력 예측 정보 업데이트
+	        $('#goalPercentageSelect').change(function() {
+	            var selectedPercentage = $(this).val();
+	            updateAveragePowerUsage(selectedYear, selectedMetro, selectedCity);
+	            updatePredictionInfo(selectedPercentage);
+	        });
+	
+	        // 평균 전력 사용량 업데이트 함수
+	        function updateAveragePowerUsage(year, metro, city) {
+	            var json_data = {
+	                year: year,
+	                metro: metro,
+	                city: city
+	            };
+	
+	            $.ajax({
+	                type: 'POST',
+	                url: '<c:url value="/getAverageYearAndMetroAndCities" />',
+	                dataType: 'json',
+	                contentType: 'application/json',
+	                data: JSON.stringify(json_data),
+	                success: function(data) {
+	                	console.log(data);
+	                    var averagePowerUsage = parseFloat(data).toFixed(2);
+	                    var averagePowerUsageText = "평균 전력 사용량: " + averagePowerUsage;
+	                    $("#averagePowerUsageInfo").html(averagePowerUsageText);
+	                    updatePredictionInfo(year, metro, city, averagePowerUsage, $('#goalPercentageSelect').val());
+	                },
+	                error: function() {
+	                    console.error('Failed to get average power usage data.');
+	                }
+	            });
+	        }
+	
+	        // 전력 예측 정보 업데이트 함수
+	        function updatePredictionInfo(year, metro, city, averagePowerUsage, selectedPercentage) {
+	            var goalAmount = averagePowerUsage - (selectedPercentage / 100) * averagePowerUsage;
+	            goalAmount = parseFloat(goalAmount).toFixed(2);
+	            var carbonPoints = calculateCarbonPoints(averagePowerUsage, selectedPercentage);
+	
+	            var predictionInfoText = year + "년 " + metro + " " + city + " 평균 전력 예측 사용량은 " + averagePowerUsage + "입니다.<br>" +
+	                selectedPercentage + "% <span class=\"highlight1\"> 절약한 전력량은 " + goalAmount +
+	                " </span>이며, 과거와 비교해서 " + selectedPercentage + "% 절약하여<br>" +
+	                " 받을 수 있는 <span class=\"highlight1\">탄소 포인트는  " + carbonPoints + "P</span>입니다." +
+	                "<br><button onclick=\"CarbonSolution()\" class=\"btn btn-primary\" style=\"margin-top:40px; margin-right:40px\">탄소포인트 계산알아보러가기</button>" +
+	                "<button onclick=\"goToCarbonPointInfo()\"class=\"btn btn-primary\" style=\"margin-top:40px\">탄소포인트알아보러가기</button>";
+	
+	            $("#predictionInfo").html(predictionInfoText);
+	        }
+	
+	        // 탄소 포인트 계산 함수
+	        function calculateCarbonPoints(averagePowerUsage, selectedPercentage) {
+	            var goalAmount = (selectedPercentage / 100) * averagePowerUsage;
+	            var fixedGoalAmounts = {
+	                10: 10000,
+	                20: 15000,
+	                30: 20000
+	            };
+	
+	            return fixedGoalAmounts[selectedPercentage];
+	        }
+	    });
+	</script>
+
+
+	<script>
+		// 버튼 클릭 시 이벤트 처리
+		document.getElementById('moveToOtherPage').addEventListener('click',
+				function() {
+					// 새로운 페이지의 URL로 이동
+					window.location.href = '${pageContext.request.contextPath}/solution'; // 원하는 URL로 변경
+				});
+		
+		
+		function CarbonSolution(){
+		    window.open('https://cpoint.or.kr/user/info/experience.do', '_blank');
+
+
+		}
+	</script>
+
+
+	<%@include file="/WEB-INF/inc/footer.jsp"%>
+
+</body>
+</html>

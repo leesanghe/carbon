@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carina.cbs.member.dao.IMemberDAO">
+ <select id="getMemberById" resultType="com.carina.cbs.member.vo.MemberVO" parameterType="String">
+        SELECT * FROM member WHERE mem_id = #{memId}
+    </select>
+		<select id="loginMember" parameterType="MemberVO" resultType="MemberVO" >
+			SELECT      
+		       mem_id
+		      ,mem_pw
+		      ,mem_nm
+		      ,email
+		      ,address
+		      ,sgng_cd
+		FROM member a
+		WHERE mem_id = #{memId}
+    
+	</select>
+	
+<insert id="registMember" parameterType="MemberVO">
+    INSERT INTO member (
+        mem_id,
+        mem_pw,
+        mem_nm,
+        profile_img,
+        SGNG_CD,
+        mbti,
+        email,
+        address,
+        reg_date
+    )
+    VALUES (
+        #{memId},
+        #{memPw},
+        #{memNm},
+        #{profileImg},
+        #{sgngCd},
+        #{mbti},
+        #{email},
+        #{address},
+        #{regDate}
+    )   
+</insert>
+<insert id="insertKakaoMember" parameterType="MemberVO">
+    INSERT INTO member (
+    mem_id, 
+    mem_pw, 
+    mem_nm, 
+    reg_date, 
+    SGNG_CD
+    )
+    VALUES (
+    #{memId}, 
+    #{memPw}, 
+    #{memNm}, 
+    now(), 
+    #{sgngCd}
+    )
+</insert>
+
+  <update id="updateProfile" parameterType="MemberVO">
+        UPDATE member
+        SET
+        sgng_cd = #{sgngCd},
+        mem_pw = #{memPw},
+        email = #{email},
+        address = #{address}
+        WHERE mem_id = #{memId}
+    </update>
+	
+</mapper>

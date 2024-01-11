@@ -1,0 +1,19 @@
+package com.carina.cbs.cbsa.service;
+
+import java.util.List;
+
+import com.carina.cbs.cbsa.vo.CbsaVO;
+
+public interface CbsaService {
+    double calculateCarbonCheck(double price);
+    String calculateTree(String euType);
+    void processFormData(String elecCo2, String gasCo2, String waterCo2, String carCo2,
+                         String elecTree, String gasTree, String waterTree, String carTree,
+                         String memberTotalCo2, String memberTotalTree);
+
+	void processUpdateData(int resultIdx, String elecCo2, String gasCo2, String waterCo2, String carCo2,
+			String elecTree, String gasTree, String waterTree, String carTree, String memberTotalCo2,
+			String memberTotalTree);
+	List<CbsaVO> getcount(CbsaVO cbsaVO); 
+	
+}

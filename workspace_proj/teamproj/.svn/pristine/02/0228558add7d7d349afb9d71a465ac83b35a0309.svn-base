@@ -1,0 +1,26 @@
+package com.future.my.free;
+
+
+/**
+ * shift + alt + j
+ * Class Name  : Test
+ * Author      : tjddndchl
+ * Created Date: 2023. 11. 10.
+ * Version: 1.0
+ * Purpose:  목적 입니다.
+ * Description: 내용 ^^
+ */
+public class Test {
+	
+	/**
+	 * @Author : tjddndchl
+	 * @Date   : 2023. 11. 10.
+	 * @Method : test2
+	 * @return : void
+	 * Purpose :
+	 * Description :
+	*/
+	public void test2 (String a) {
+		
+	}
+}

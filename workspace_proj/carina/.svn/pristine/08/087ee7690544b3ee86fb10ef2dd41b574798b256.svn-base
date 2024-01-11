@@ -1,0 +1,13 @@
+package com.carina.cbs.cbs.cbs.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.carina.cbs.cbs.cbs.dao.ICbsDAO;
+
+@Service
+public class CbsServiceImpl implements CbsService {
+	@Autowired
+	ICbsDAO dao;
+
+}

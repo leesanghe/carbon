@@ -1,0 +1,5 @@
+package com.carina.cbs.emp.service;
+
+public interface EmpService {
+
+}

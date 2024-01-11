@@ -1,0 +1,32 @@
+const url = 'http://192.168.0.34:8080/';
+
+function setShare() {
+  var resultImg = document.querySelector('#resultImg');
+  var resultAlt = resultImg.firstElementChild.alt;
+  const shareTitle = '환경유형 결과';
+  const shareDes = infoList[resultAlt].name;
+  const shareImage = url + 'cbs/assets/img/mbti/image-' + resultAlt + '.png';
+  const shareURL = url + 'cbs/page/result-' + resultAlt;
+
+  Kakao.Link.sendDefault({
+    objectType: 'feed',
+    content: {
+      title: shareTitle,
+      description: shareDes,
+      imageUrl: shareImage,
+      link: {
+        mobileWebUrl: shareURL,
+        webUrl: shareURL
+      },
+    },
+    buttons: [
+      {
+        title: '결과확인하기',
+        link: {
+          mobileWebUrl: shareURL,
+          webUrl: shareURL,
+        },
+      },
+    ],
+  });
+}

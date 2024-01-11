@@ -1,0 +1,13 @@
+package com.carina.cbs.cbsa.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+
+import com.carina.cbs.cbsa.vo.CbsaVO;
+
+@Mapper
+public interface ICbsaDAO {
+	List<CbsaVO> getcount(CbsaVO cbsaVO); 
+}

@@ -1,0 +1,21 @@
+package com.carina.cbs.board.freeboard.service;
+
+import java.util.List;
+
+import com.carina.cbs.board.freeboard.vo.FreeBoardSearchVO;
+import com.carina.cbs.board.freeboard.vo.FreeBoardVO;
+
+
+/**
+ * Class Name  : FreeBoardService
+ * Author      : ParkGeunHye
+ * Created Date: 2023. 11. 29.
+ * Version: 1.0
+ * Purpose:   자유게시판
+ * Description:  자유게시판 service
+ */
+public interface FreeBoardService {
+	
+	List<FreeBoardVO>getfreeboardList();
+	
+}

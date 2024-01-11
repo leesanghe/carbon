@@ -1,0 +1,68 @@
+package com.carina.cbs.board.freeboard.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.carina.cbs.board.freeboard.dao.IFreeBoardDAO;
+import com.carina.cbs.board.freeboard.vo.FreeBoardSearchVO;
+import com.carina.cbs.board.freeboard.vo.FreeBoardVO;
+
+
+/**
+ * Class Name  : FreeBoardServiceImpl
+ * Author      : ParkGeunHye
+ * Created Date: 2023. 11. 29.
+ * Version: 1.0
+ * Purpose:   자유게시판 service
+ * Description: 자유게시판 service 구현체
+ */
+@Service("freeBoardService")
+public class FreeBoardServiceImpl implements FreeBoardService {
+	@Autowired
+	IFreeBoardDAO dao;
+	
+	//테스트
+	@Override
+	public List<FreeBoardVO>getfreeboardList(){
+		return dao.getfreeboardList();
+	}
+	public void freeboardwrite(FreeBoardVO freeboard) throws Exception{
+		int result = dao.freeboardwrite(freeboard);
+		if(result ==0) {
+			throw new Exception();
+		}
+	}
+	public FreeBoardVO getFreeBoard(int boardNo) throws Exception{
+		FreeBoardVO result = dao.getFreeBoard(boardNo);
+		if(result ==null ) {
+			throw new Exception();
+		}
+		return result;
+	}
+	public void updateBoard(FreeBoardVO freeboard) throws Exception {
+		int result = dao.updateBoard(freeboard);
+		if(result ==0) {
+			throw new Exception();
+		}
+	}
+	
+	public void deleteBoard(int boardNo) throws Exception {
+		int result = dao.deleteBoard(boardNo);
+		if(result ==0) {
+			throw new Exception();
+		}
+	}
+	
+
+
+
+//	public List<FreeBoardVO> getBoardList(FreeBoardSearchVO searchVO){
+//		int totalRowCount = dao.getTotalRowCount(searchVO);
+//		System.out.println(totalRowCount);
+//		searchVO.setTotalRowCount(totalRowCount);
+//		searchVO.pageSetting();
+//		return dao.searchBoardList(searchVO);
+//	}
+}

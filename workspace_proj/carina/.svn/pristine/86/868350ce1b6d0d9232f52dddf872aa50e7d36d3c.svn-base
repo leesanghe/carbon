@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carina.cbs.board.freeboard.dao.IFreeBoardDAO">
+   
+   <sql id="prePage">
+      SELECT * FROM (
+      SELECT a.* , rownum as rnum FROM (
+   </sql>
+
+   <sql id="postPage">
+      ) a )b
+      WHERE rnum between #{firstRow} and #{lastRow}
+   </sql>
+
+   <!--검색조건 정적메소드 사용 방법. @클래스이름@메소드이름(파라미터이름) -->
+   <sql id="condBoardSearch">
+      <!--isNotBlank 메서드는 문자열이 null이거나 공백 문자로만 이루어져 있지 않은지를 확인하는 메서드 -->
+      <if
+         test="@org.apache.commons.lang3.StringUtils@isNotBlank(keyword)">
+         <choose>
+            <when test='searchOption=="title"'>
+               AND board_title LIKE '%'|| #{keyword} || '%'
+            </when>
+            <when test='searchOption=="memid"'>
+               AND mem_id LIKE '%'|| #{keyword} || '%'
+            </when>
+            <when test='searchOption=="content"'>
+               AND board_content LIKE '%'|| #{keyword} || '%'
+            </when>
+         </choose>
+      </if>
+   </sql>
+
+   <!-- public BoardVO getBoard(int boardNo); /*게시글 상세 조회*/ -->
+   <select id="getBoard" resultType="FreeBoardVO" parameterType="int">
+      SELECT board_no
+         , board_title
+         , board_content
+         , mem_id
+         , DATE_FORMAT(create_date, '%Y-%m-%d') AS create_date -- MySQL
+         , DATE_FORMAT(update_date, '%Y-%m-%d') AS update_date -- MySQL
+         , board_hit
+         , del_yn 
+      FROM board
+      WHERE board_no = #{boardNo}
+      ORDER BY board_no
+   </select>
+
+   <!-- public List<BoardVO> searchBoardList(SearchVO search); /*검색어 기반 게시글 
+      목록 조회*/ -->
+   <select id="searchBoardList" 
+      resultType="FreeBoardVO" 
+      parameterType="FreeBoardSearchVO">
+      <include refid="prePage"></include>
+      SELECT  DATE_FORMAT(create_date, '%Y-%m-%d') AS create_date -- MySQL
+            , DATE_FORMAT(update_date, '%Y-%m-%d') AS update_date -- MySQL
+            , board_no
+            , mem_id
+            , board_title
+            , board_content
+            , board_hit
+      FROM board
+      WHERE del_yn = 'N'
+      <include refid="condBoardSearch"></include>
+      ORDER BY board_no DESC
+      LIMIT #{firstRow}, #{pageSize} -- MySQL
+      <include refid="postPage"></include>
+   </select>
+
+   <!-- public int getTotalRowCount(BoardVO searchVO); /*목록 건수 조회*/ -->
+   <select id="getTotalRowCount" parameterType="FreeBoardVO" resultType="int">
+      SELECT count(*)
+      FROM board
+      WHERE 1=1
+      <include refid="condBoardSearch"></include>
+   </select>
+   
+   <!-- 게시글 작성 -->
+   <insert id="writeBoard" parameterType="FreeBoardVO">
+      INSERT INTO board (board_no, board_title, board_content, mem_id, create_date, update_date, board_hit)
+      VALUES(seq_board.nextval, #{boardTitle}, #{boardContent},  #{memId},  SYSDATE, SYSDATE, 0  )
+   </insert>
+   
+   <!-- public int updateBoard(BoardVO board);                   /*게시글 수정*/ -->
+   <update id="updateBoard" parameterType="FreeBoardVO">
+      UPDATE board
+      SET board_title = #{boardTitle}
+         ,board_content = #{boardContent}
+         ,update_date   = SYSDATE
+      WHERE board_no = #{boardNo}
+   </update>
+   
+   <!-- public int deleteBoard(int boardNo);                     /*게시글 삭제*/ -->
+   <update id="deleteBoard" parameterType="int">
+      UPDATE board
+      SET    board_yn = 'Y'
+      WHERE board_no = #{boardNo}
+   </update>
+   
+   <!-- public int increaseLike (int boardNo);                   /*좋아요 증가*/ -->
+   <update id="increaseLike" parameterType="int">
+      UPDATE board
+      SET board_like = board_like + 1
+      WHERE board_no = ${boardNo}
+   </update>
+   
+   <!-- public int increaseHit(int boNo);                         /*조회수 증가*/ -->
+   <update id="increaseHit" parameterType="int">
+      UPDATE board
+      SET board_hit = board_hit + 1
+      WHERE board_no = ${boardNo}
+   </update>
+</mapper>

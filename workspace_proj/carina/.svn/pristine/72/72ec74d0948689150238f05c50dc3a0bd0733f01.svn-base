@@ -1,0 +1,137 @@
+package com.carina.cbs.board.actboard.vo;
+
+public class ActBoardVO {
+	private int actBoardNo;
+	private String actBoardTitle;
+	private String actBoardContent;
+	private String memId;
+	private String createDate;
+	private String updateDate;
+	private String actImg;
+	private int actHit;
+	private int actGood;
+	private int actTogether;
+	private int actUsefull;
+	
+	
+	
+	public ActBoardVO() {
+		super();
+	}
+
+	public ActBoardVO(int actBoardNo, String actBoardTitle, String actBoardContent, String memId, String createDate,
+			String updateDate, String actImg, int actHit, int actGood, int actTogether, int actUsefull) {
+		super();
+		this.actBoardNo = actBoardNo;
+		this.actBoardTitle = actBoardTitle;
+		this.actBoardContent = actBoardContent;
+		this.memId = memId;
+		this.createDate = createDate;
+		this.updateDate = updateDate;
+		this.actImg = actImg;
+		this.actHit = actHit;
+		this.actGood = actGood;
+		this.actTogether = actTogether;
+		this.actUsefull = actUsefull;
+	}
+
+	public int getActBoardNo() {
+		return actBoardNo;
+	}
+
+	public void setActBoardNo(int actBoardNo) {
+		this.actBoardNo = actBoardNo;
+	}
+
+	public String getActBoardTitle() {
+		return actBoardTitle;
+	}
+
+	public void setActBoardTitle(String actBoardTitle) {
+		this.actBoardTitle = actBoardTitle;
+	}
+
+	public String getActBoardContent() {
+		return actBoardContent;
+	}
+
+	public void setActBoardContent(String actBoardContent) {
+		this.actBoardContent = actBoardContent;
+	}
+
+	public String getMemId() {
+		return memId;
+	}
+
+	public void setMemId(String memId) {
+		this.memId = memId;
+	}
+
+	public String getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(String createDate) {
+		this.createDate = createDate;
+	}
+
+	public String getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(String updateDate) {
+		this.updateDate = updateDate;
+	}
+
+	public String getActImg() {
+		return actImg;
+	}
+
+	public void setActImg(String actImg) {
+		this.actImg = actImg;
+	}
+
+	public int getActHit() {
+		return actHit;
+	}
+
+	public void setActHit(int actHit) {
+		this.actHit = actHit;
+	}
+
+	public int getActGood() {
+		return actGood;
+	}
+
+	public void setActGood(int actGood) {
+		this.actGood = actGood;
+	}
+
+	public int getActTogether() {
+		return actTogether;
+	}
+
+	public void setActTogether(int actTogether) {
+		this.actTogether = actTogether;
+	}
+
+	public int getActUsefull() {
+		return actUsefull;
+	}
+
+	public void setActUsefull(int actUsefull) {
+		this.actUsefull = actUsefull;
+	}
+
+	@Override
+	public String toString() {
+		return "ActBoardVO [actBoardNo=" + actBoardNo + ", actBoardTitle=" + actBoardTitle + ", actBoardContent="
+				+ actBoardContent + ", memId=" + memId + ", createDate=" + createDate + ", updateDate=" + updateDate
+				+ ", actImg=" + actImg + ", actHit=" + actHit + ", actGood=" + actGood + ", actTogether=" + actTogether
+				+ ", actUsefull=" + actUsefull + "]";
+	}
+	
+	
+	
+	
+}

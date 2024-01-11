@@ -1,0 +1,1068 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>탄소 중립 결과 보고서</title>
+
+<link rel="canonical"
+	href="https://themesberg.com/product/ui-kits/neumorphism-ui/">
+<!--  Social tags -->
+<meta name="keywords"
+	content="neumorphism, neumorphism ui, neomorphism, neomorphism ui, neomorphism css, neumorphism css, neumorph, neumorphic, design system, login, form, table, tables, card, cards, navbar, modal, icons, icons, map, chat, carousel, menu, datepicker, gallery, slider, date, social, dropdown, search, tab, nav, footer, date picker, forms, tabs, time, button, select, input, timeline, cart, about us, account, log in, blog, profile, portfolio, landing page, ecommerce, shop, landing, register, app, contact, one page, sign up, signup, store, bootstrap 4, bootstrap4, dashboard, bootstrap 4 dashboard, bootstrap 4 design, bootstrap 4 system, bootstrap 4, bootstrap 4 uit kit, bootstrap 4 kit, themesberg, html kit, html css template, web template, bootstrap, bootstrap 4, css3 template, frontend, responsive bootstrap template, bootstrap ui kit, responsive ui kit">
+<meta name="description"
+	content="Start developing neumorphic web applications and pages using Neumorphism UI. It features over 100 individual components and 5 example pages.">
+<!-- Schema.org markup for Google+ -->
+<meta itemprop="name" content="Neumorphism UI by Themesberg">
+<meta itemprop="description"
+	content="Start developing neumorphic web applications and pages using Neumorphism UI. It features over 100 individual components and 5 example pages.">
+<meta itemprop="image"
+	content="https://themesberg.s3.us-east-2.amazonaws.com/public/products/neumorphism-ui/neumorphism-thumbnail.jpg">
+<!-- Twitter Card data -->
+<meta name="twitter:card" content="product">
+<meta name="twitter:site" content="@themesberg">
+<meta name="twitter:title" content="Neumorphism UI by Themesberg">
+<meta name="twitter:description"
+	content="Start developing neumorphic web applications and pages using Neumorphism UI. It features over 100 individual components and 5 example pages.">
+<meta name="twitter:creator" content="@themesberg">
+<meta name="twitter:image"
+	content="https://themesberg.s3.us-east-2.amazonaws.com/public/products/neumorphism-ui/neumorphism-thumbnail.jpg">
+<!-- Open Graph data -->
+<meta property="fb:app_id" content="214738555737136">
+<meta property="og:title" content="Neumorphism UI by Themesberg">
+<meta property="og:type" content="article">
+<meta property="og:url"
+	content="https://demo.themesberg.com/neumorphism-ui/">
+<meta property="og:image"
+	content="https://themesberg.s3.us-east-2.amazonaws.com/public/products/neumorphism-ui/neumorphism-thumbnail.jpg">
+<meta property="og:description"
+	content="Start developing neumorphic web applications and pages using Neumorphism UI. It features over 100 individual components and 5 example pages.">
+<meta property="og:site_name" content="Themesberg">
+<!-- Favicon -->
+<link rel="apple-touch-icon" sizes="120x120"
+	href="assets/img/favicon/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32"
+	href="assets/img/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16"
+	href="assets/img/favicon/favicon-16x16.png">
+<link rel="manifest" href="assets/img/favicon/site.webmanifest">
+<link rel="mask-icon" href="assets/img/favicon/safari-pinned-tab.svg"
+	color="#ffffff">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="theme-color" content="#ffffff">
+<!-- Fontawesome -->
+<link type="text/css"
+	href="resources/vendor/@fortawesome/fontawesome-free/css/all.min.css"
+	rel="stylesheet">
+<!-- Pixel CSS -->
+<link type="text/css" href="css/neumorphism.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script async
+	src="https://www.googletagmanager.com/gtag/js?id=UA-141734189-1"></script>
+<!-- NOTICE: You can use the _analytics.html partial to include production code specific code & trackers -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/js/html2canvas.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/js/jspdf.min.js"></script>
+<style>
+#savePdf {
+	/* 기존 버튼 스타일 유지하면서 오른쪽으로 이동하는 스타일 추가 */
+	
+}
+</style>
+
+</head>
+<body>
+
+	<script>
+		function getResultFromLocalStorage() {
+			var result = JSON.parse(localStorage.getItem('sendReport'));
+			return result;
+
+		}
+
+		$(document)
+				.ready(
+						function() {
+							// 사용자가 입력한값들
+							var storedResult = getResultFromLocalStorage();
+							var eReduce = storedResult.eReduce;
+							var electricity = storedResult.electricity;
+							var electricityEmission = storedResult.electricityEmission;
+							var gReduce = storedResult.gReduce;
+							var gas = storedResult.gas;
+							var gasEmission = storedResult.gasEmission;
+							var globalTotalCo2 = storedResult.globalTotalCo2;
+							var globalTotalCost = storedResult.globalTotalCost;
+							var nameInput = storedResult.nameInput;
+							var totalAmount = storedResult.totalAmount;
+							var totalCarbonEmission = storedResult.totalCarbonEmission;
+
+							var totalCo2e = storedResult.totalCo2e;
+							var totalCo2g = storedResult.totalCo2g;
+							var totalCo2w = storedResult.totalCo2w;
+							var totalCoste = storedResult.totalCoste;
+							var totalCostg = storedResult.totalCostg;
+							var totalCostw = storedResult.totalCostw;
+
+							var totalReduce = storedResult.totalReduce;
+							var totalTree = storedResult.totalTree;
+							var totalTreeConversion = storedResult.totalTreeConversion;
+							var wReduce = storedResult.wReduce;
+							var water = storedResult.water;
+							var waterEmission = storedResult.waterEmission
+
+							var selectedCellContentse = storedResult.selectedCellContentse;
+							var selectedCellContentsg = storedResult.selectedCellContentsg;
+							var selectedCellContentsw = storedResult.selectedCellContentsw;
+
+							var housingType = storedResult.housingType;
+
+							// 거주면적 선택값 가져오기
+							var residenceArea = storedResult.residenceArea;
+
+							// 거주인원 선택값 가져오기
+							var people = storedResult.people;
+
+							var allSelectedContent = selectedCellContentse
+									.concat(selectedCellContentsg,
+											selectedCellContentsw);
+							var selectedTotalCarbonEmission = totalCarbonEmission
+									- globalTotalCo2
+							console.log(eReduce);
+							console.log(selectedCellContentse)
+
+							//결과를 화면에 출력
+
+							var resultContainer = $("#carbonEmissionInfo")
+							resultContainer.html(""); // 결과를 초기화
+
+							// 결과에 대한 추가 정보를 화면에 추가
+							var additionalInfo;
+							var userInfo;
+
+							if (totalCarbonEmission > totalAmount) {
+								var moreEmission = Math
+										.round((totalCarbonEmission - totalAmount) * 10)/ 10;
+								// 반올림
+								additionalInfo = nameInput
+										+ " 님 가정의  이산화탄소 배출량은 총 "
+										+ totalCarbonEmission
+										+ "kg 이며, 비슷한 다른 가정 평균 " + totalAmount
+										+ "kg 보다 " + moreEmission
+										+ "kg 더 많이 배출하고 있습니다. "
+										+ totalCarbonEmission
+										+ "kg의 이산화탄소를 상쇄시키기 위해서는 "
+										+ storedResult.totalTreeConversion
+										+ " 그루의 소나무를 심어야 합니다.";
+							} else {
+								var lessEmission = Math
+										.round((totalAmount - totalCarbonEmission) * 10)
+								/ 10; // 반올림
+								additionalInfo = nameInput
+										+ " 님 가정의 이산화탄소 배출량은 총 "
+										+ totalCarbonEmission
+										+ "kg 이며,비슷한 다른 가정 평균 " + totalAmount
+										+ "kg 보다 " + lessEmission
+										+ "kg 더  적게 배출하고 있습니다. "
+										+ totalCarbonEmission
+										+ "kg의 이산화탄소를 상쇄시키기 위해서는 "
+										+ totalTreeConversion
+										+ " 그루의 소나무를 심어야 합니다.";
+							}
+
+							userInfo = "사용자 이름:" + nameInput + "<br>"
+									+ "주거형태 :" + housingType + "<br>"
+									+ "거주면적 :" + residenceArea + "<br>"
+									+ "거주인원 :" + people + "<br>";
+
+							$("#carbonEmissionInfo").html(userInfo);
+							$("#carbonEmissionInfo1").html(additionalInfo);
+							// 첫 줄에도 이름 동적 업데이트
+							$('.card-text.small').html(
+									nameInput + '님의 이산화탄소 발생량 통계입니다.');
+
+							// Chart.js를 이용하여 원 그래프를 그리는 코드
+							var ctxDoughnut = document.getElementById(
+									'myDoughnutChart').getContext('2d');
+							var myDoughnutChart = new Chart(ctxDoughnut, {
+								type : 'doughnut',
+								data : {
+									labels : [ '전기', '가스', '수도' ], // 그래프의 라벨
+									datasets : [ {
+										data : [ electricityEmission,
+												gasEmission, waterEmission ], // 그래프에 표시될 데이터
+										backgroundColor : [
+												'rgba(255, 99, 132, 0.8)',
+												'rgba(54, 162, 235, 0.8)',
+												'rgba(255, 206, 86, 0.8)' ],
+										borderColor : [
+												'rgba(255, 99, 132, 1)',
+												'rgba(54, 162, 235, 1)',
+												'rgba(255, 206, 86, 1)' ],
+										borderWidth : 1
+									} ]
+								},
+								options : {
+									cutout : '70%', // 중앙에 구멍을 내기 위한 옵션
+									responsive : false,
+									plugins : {
+										legend : {
+											position : 'bottom' // 범례 위치
+
+										}
+									}
+								}
+							});
+
+							// 그래프를 그리기 위한 데이터
+							var totalData = {
+								labels : [ '사용자탄소발생', '다른집탄소발생', '사용자나무환산',
+										'다른집나무환산' ],
+								datasets : [ {
+									data : [ totalCarbonEmission, totalAmount,
+											totalTreeConversion, totalTree ],
+									backgroundColor : [
+											'rgba(255, 99, 132, 0.8)',
+											'rgba(54, 162, 235, 0.8)',
+											'rgba(255, 206, 86, 0.8)',
+											'rgba(75, 192, 192, 0.8)' ],
+									borderColor : [ 'rgba(255, 99, 132, 1)',
+											'rgba(54, 162, 235, 1)',
+											'rgba(255, 206, 86, 1)',
+											'rgba(75, 192, 192, 1)' ],
+									borderWidth : 1
+								} ]
+							};
+
+							// 캔버스 요소 가져오기
+							var totalChart = document
+									.getElementById('totalChart');
+
+							// Chart.js를 이용하여 그래프 그리기
+							var ctx = totalChart.getContext('2d');
+							var myChart = new Chart(ctx, {
+								type : 'bar',
+								data : totalData,
+								options : {
+									responsive : false,
+									plugins : {
+										legend : {
+											display : false
+										},
+										tooltips : {
+											enabled : true
+										},
+										datalabels : {
+											display : true,
+											anchor : 'end',
+											align : 'end',
+											formatter : function(value, ctx) {
+												return value.toFixed(2);
+											}
+										}
+									}
+								}
+							});
+
+							// 그래프를 그리기 위한 데이터
+							var electricityData = {
+								labels : [ '우리집', '다른집' ],
+								datasets : [ {
+									data : [ electricityEmission, electricity ],
+									backgroundColor : [
+											'rgba(255, 99, 132, 0.8)',
+											'rgba(54, 162, 235, 0.8)' ],
+									borderColor : [ 'rgba(255, 99, 132, 1)',
+											'rgba(54, 162, 235, 1)' ],
+									borderWidth : 1
+								} ]
+							};
+
+							// 캔버스 요소 가져오기
+							var electricityChart = document
+									.getElementById('electricityChart');
+
+							// Chart.js를 이용하여 그래프 그리기
+							var ctx = electricityChart.getContext('2d');
+							var myChart = new Chart(ctx, {
+								type : 'bar',
+								data : electricityData,
+								options : {
+									responsive : false,
+									plugins : {
+										legend : {
+											display : false
+										},
+										datalabels : {
+											display : true,
+											anchor : 'end',
+											align : 'end',
+											formatter : function(value, ctx) {
+												return value.toFixed(2);
+											}
+										}
+									}
+								}
+							});
+
+							// 그래프를 그리기 위한 데이터
+							var gasData = {
+								labels : [ '우리집', '다른집' ],
+								datasets : [ {
+									data : [ gasEmission, gas ],
+									backgroundColor : [
+											'rgba(255, 99, 132, 0.8)',
+											'rgba(54, 162, 235, 0.8)' ],
+									borderColor : [ 'rgba(255, 99, 132, 1)',
+											'rgba(54, 162, 235, 1)' ],
+									borderWidth : 1
+								} ]
+							};
+
+							// 캔버스 요소 가져오기
+							var gasChart = document.getElementById('gasChart');
+
+							// Chart.js를 이용하여 그래프 그리기
+							var ctx = gasChart.getContext('2d');
+							var myChart = new Chart(ctx, {
+								type : 'bar',
+								data : gasData,
+								options : {
+									responsive : false,
+									plugins : {
+										legend : {
+											display : false
+										},
+										datalabels : {
+											display : true,
+											anchor : 'end',
+											align : 'end',
+											formatter : function(value, ctx) {
+												return value.toFixed(2);
+											}
+										}
+									}
+								}
+							});
+
+							// 그래프를 그리기 위한 데이터
+							var waterData = {
+								labels : [ '우리집', '다른집' ],
+								datasets : [ {
+									data : [ waterEmission, water ],
+									backgroundColor : [
+											'rgba(255, 99, 132, 0.8)',
+											'rgba(54, 162, 235, 0.8)' ],
+									borderColor : [ 'rgba(255, 99, 132, 1)',
+											'rgba(54, 162, 235, 1)' ],
+									borderWidth : 1
+								} ]
+							};
+
+							// 캔버스 요소 가져오기
+							var waterChart = document
+									.getElementById('waterChart');
+
+							// Chart.js를 이용하여 그래프 그리기
+							var ctx = waterChart.getContext('2d');
+							var myChart = new Chart(ctx, {
+								type : 'bar',
+								data : waterData,
+								options : {
+									responsive : false,
+									plugins : {
+										legend : {
+											display : false
+										},
+										datalabels : {
+											display : true,
+											anchor : 'end',
+											align : 'end',
+											formatter : function(value, ctx) {
+												return value.toFixed(2);
+											}
+										}
+									}
+								}
+							});
+
+							$("#selectTable tbody").empty();
+							allSelectedContent.forEach(function(content) {
+								$("#selectTable tbody").append(
+										"<tr><td>" + content + "</td></tr>");
+							});
+
+							$('#co2Electricity').text(
+									totalCo2e.toFixed(1) + 'kg');
+							$('#costElectricity').text(
+									totalCoste.toFixed(0) + '원');
+
+							$('#co2Water').text(totalCo2w.toFixed(1) + 'kg');
+							$('#costWater').text(totalCostw.toFixed(0) + '원');
+
+							$('#co2Gas').text(totalCo2g.toFixed(1) + 'kg');
+							$('#costGas').text(totalCostg.toFixed(0) + '원');
+
+							$('#totalCo2').text(
+									globalTotalCo2.toFixed(1) + 'kg');
+							$('#totalCost').text(
+									globalTotalCost.toFixed(0) + '원');
+
+							// 그래프를 그리기 위한 데이터
+							var drawTotalData = {
+								labels : [ '다른집', '우리집', '목표' ],
+								datasets : [ {
+									data : [ totalAmount, totalCarbonEmission,
+											selectedTotalCarbonEmission ],
+									backgroundColor : [
+											'rgba(255, 99, 132, 0.8)',
+											'rgba(54, 162, 235, 0.8)',
+											'rgba(255, 206, 86, 0.8)' ],
+									borderColor : [ 'rgba(255, 99, 132, 1)',
+											'rgba(54, 162, 235, 1)',
+											'rgba(255, 206, 86, 1)' ],
+									borderWidth : 1
+								} ]
+							};
+
+							// 캔버스 요소 가져오기
+							var drawChart = document
+									.getElementById('co2comparison');
+
+							// Chart.js를 이용하여 그래프 그리기
+							var ctx = drawChart.getContext('2d');
+							var myChart = new Chart(ctx, {
+								type : 'bar',
+								data : drawTotalData,
+								options : {
+									responsive : false,
+									plugins : {
+										legend : {
+											display : false
+										},
+										tooltips : {
+											enabled : true
+										},
+										datalabels : {
+											display : true,
+											anchor : 'end',
+											align : 'end',
+											formatter : function(value, ctx) {
+												return value.toFixed(2);
+											}
+										}
+									}
+								}
+							});
+
+							// 그래프를 그리기 위한 데이터
+							var electricityData2 = {
+								labels : [ '다른집', '우리집', '목표' ],
+								datasets : [ {
+									data : [ electricity, electricityEmission,
+											eReduce ],
+									backgroundColor : [
+											'rgba(255, 99, 132, 0.8)',
+											'rgba(54, 162, 235, 0.8)',
+											'rgba(255, 206, 86, 0.8)' ],
+									borderColor : [ 'rgba(255, 99, 132, 1)',
+											'rgba(54, 162, 235, 1)',
+											'rgba(255, 206, 86, 1)' ],
+									borderWidth : 1
+								} ]
+							};
+
+							// 캔버스 요소 가져오기
+							var electricityChart2 = document
+									.getElementById('eCO2BarChart');
+
+							// Chart.js를 이용하여 그래프 그리기
+							var ctx = electricityChart2.getContext('2d');
+							var myChart = new Chart(ctx, {
+								type : 'bar',
+								data : electricityData2,
+								options : {
+									responsive : false,
+									plugins : {
+										legend : {
+											display : false
+										},
+										datalabels : {
+											display : true,
+											anchor : 'end',
+											align : 'end',
+											formatter : function(value, ctx) {
+												return value.toFixed(2);
+											}
+										}
+									}
+								}
+							});
+
+							// 그래프를 그리기 위한 데이터
+							var gasData2 = {
+								labels : [ '다른집', '우리집', '목표' ],
+								datasets : [ {
+									data : [ gas, gasEmission, gReduce ],
+									backgroundColor : [
+											'rgba(255, 99, 132, 0.8)',
+											'rgba(54, 162, 235, 0.8)',
+											'rgba(255, 206, 86, 0.8)' ],
+									borderColor : [ 'rgba(255, 99, 132, 1)',
+											'rgba(54, 162, 235, 1)',
+											'rgba(255, 206, 86, 1)' ],
+									borderWidth : 1
+								} ]
+							};
+
+							// 캔버스 요소 가져오기
+							var gasChart2 = document
+									.getElementById('gCO2BarChart');
+
+							// Chart.js를 이용하여 그래프 그리기
+							var ctx = gasChart2.getContext('2d');
+							var myChart = new Chart(ctx, {
+								type : 'bar',
+								data : gasData2,
+								options : {
+									responsive : false,
+									plugins : {
+										legend : {
+											display : false
+										},
+										datalabels : {
+											display : true,
+											anchor : 'end',
+											align : 'end',
+											formatter : function(value, ctx) {
+												return value.toFixed(2);
+											}
+										}
+									}
+								}
+							});
+
+							// 그래프를 그리기 위한 데이터
+							var waterData2 = {
+								labels : [ '다른집', '우리집', '목표' ],
+								datasets : [ {
+									data : [ water, waterEmission,
+											Math.max(0, wReduce) ],
+									backgroundColor : [
+											'rgba(255, 99, 132, 0.8)',
+											'rgba(54, 162, 235, 0.8)',
+											'rgba(255, 206, 86, 0.8)' ],
+									borderColor : [ 'rgba(255, 99, 132, 1)',
+											'rgba(54, 162, 235, 1)',
+											'rgba(255, 206, 86, 1)' ],
+									borderWidth : 1
+								} ]
+							};
+
+							// 캔버스 요소 가져오기
+							var waterChart2 = document
+									.getElementById('wCO2BarChart');
+
+							// Chart.js를 이용하여 그래프 그리기
+							var ctx = waterChart2.getContext('2d');
+							var myChart = new Chart(ctx, {
+								type : 'bar',
+								data : waterData2,
+								options : {
+									responsive : false,
+									plugins : {
+										legend : {
+											display : false
+										},
+										datalabels : {
+											display : true,
+											anchor : 'end',
+											align : 'end',
+											formatter : function(value, ctx) {
+												return value.toFixed(2);
+											}
+										}
+									}
+								}
+							});
+
+							function updateCO2Comparison() {
+								var comparisonText;
+								var userName;
+								var userInfo
+								var totalCO2 = totalCarbonEmission;
+								var treesToPlant = totalTreeConversion;
+								var Difference = (totalAmount - totalCarbonEmission);
+								var sectorsWithMoreCO2 = 0;
+								console.log(totalCO2);
+								console.log(`- 이산화탄소 배출량은 총 ` + totalCO2
+										+ `kg 이며`);
+								console.log(Difference)
+								var count = 0;
+
+								if (electricityEmission > electricity) {
+									count += 1;
+								}
+								if (waterEmission > water) {
+									count += 1;
+								}
+								if (gasEmission > gas) {
+									count += 1;
+								}
+
+								if (Difference < 0) {
+									// HTML 업데이트
+									comparisonText = `- 이산화탄소 배출량은 총 `
+											+ totalCO2
+											+ `kg 이며, 비슷한 규모의 다른 가정보다 약 `
+											+ Math.abs(Difference)
+											+ `kg 더 많이 배출하고 있습니다.<br><br>`
+											+ `- 이만큼의 이산화탄소를 없애기 위해서는 약 `
+											+ treesToPlant
+											+ ` 그루의 소나무를 심어야 합니다.<br><br>`
+											+ `- 부문별로 보면 전기,가스,수도  3개 부문 중`
+											+ count
+											+ `개 부문에서 다른 가정보다 이산화탄소 배출이 많습니다.`;
+								} else {
+									comparisonText = `- 이산화탄소 배출량은 총 `
+											+ totalCO2
+											+ `kg 이며, 비슷한 규모의 다른 가정보다 약 `
+											+ Math.abs(Difference)
+											+ `kg 더 적게 배출하고 있습니다.<br><br>`
+											+ `- 이만큼의 이산화탄소를 없애기 위해서는 약 `
+											+ treesToPlant
+											+ ` 그루의 소나무를 심어야 합니다.<br><br>`
+											+ `- 부문별로 보면 전기,가스,수도 3개 부문 중`
+											+ count
+											+ `개 부문에서 다른 가정보다 이산화탄소 배출이 많습니다.`;
+								}
+								userName = `-` + nameInput + `님 가정의 종합평가`
+								userInfo = `-` + nameInput
+										+ `님 가정에서 이산화탄소 배출을 줄이는 실천을 하시면 약 `
+										+ Math.round(globalTotalCo2 * 10) / 10
+										+ `kg의 이산화탄소를 줄이고 <br>` + `- `
+										+ globalTotalCost
+										+ `원의 비용절감 효과과 예상됩니다.`;
+
+								//document.getElementById('userName').innerHTML = userName;
+								document.getElementById('co2ComparisonText').innerHTML = comparisonText;
+								//document.getElementById('userInfo').innerHTML = userInfo;
+								console.log("1");
+
+								// 버튼 보이도록 설정
+								//$("#downloadButton").show();
+
+							}
+							updateCO2Comparison()
+
+	$('#savePdf').click(function() {
+	  // 현재 스크롤 위치 저장
+	  var scrollTop = $(window).scrollTop();
+	  
+	  // 페이지 전체 내용 캡처 (스크롤 포함)
+	  html2canvas(document.body, {
+	    scrollY: -scrollTop, // 스크롤된 내용 포함
+	    scale: 2, // 스케일링 설정 (선택 사항)
+	  }).then(function(canvas) {
+	    // 스크롤 위치 복원
+	    $(window).scrollTop(scrollTop);
+	    
+	    var imgData = canvas.toDataURL('image/png');
+	    var imgWidth = canvas.width * 0.264583; // 페이지 기준 가로 길이 (mm)
+	    var imgHeight = canvas.height * 0.264583; // 페이지 기준 세로 길이 (mm)
+	    var doc = new jsPDF('p', 'mm', [imgWidth, imgHeight]);
+	
+	    doc.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+	
+	    // 파일 저장
+	    doc.save('file-name.pdf');
+	  });
+	});
+
+							
+					    	document.getElementById('sendSimul').addEventListener('click', function() {
+
+					    	    var newPageURL = "${pageContext.request.contextPath}/simulater";
+
+					    	    // 현재 창에서 새로운 페이지로 이동
+					    	    window.location.href = newPageURL;
+					    	});
+
+						});
+	</script>
+
+
+	<!-- 	문서 전체를 묶는 div, maincontainer -->
+	<div class="maincontainer" id="pdfDiv">
+		<div class="row mt-5 justify-content-center">
+			<div class="col-md-12 mb-5 text-center">
+				<h1 class="display-2">
+					<strong>탄소 중립 결과 보고서</strong>
+				</h1>
+			</div>
+			<hr1>
+		</div>
+		<div class="container mt-6">
+			<div class="col-12 col-lg-12 mb-6">
+				<div class="card bg-primary shadow-inset border-light w-100">
+					<div class="card-body p-5 ">
+						<h3 class="h4 card-title mb-3">
+							<strong>사용자 정보</strong>
+						</h3>
+						<span class="card-text small"> ㅇㅇ님의 이산화탄소 발생량 통계입니다. </span>
+						<p id="carbonEmissionInfo" class="card-text mt-4">ㅇㅇ 님 가정은
+							이산화탄소 배출량은 총 12kg 이며, 비슷한 다른 가정 평균 343.8kg 보다 약 0% 더 많이 배출하고
+							있습니다. 12kg의 이산화탄소 를 상쇄시키기 위해서는 2.9 그루의 소나무를 심어야 합니다. 왼쪽의 그래프를 보고
+							어느 부분에서 이산화탄소를 많이 발생하고 있는지 비교해 보세요.</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-12 col-lg-12 mb-6">
+				<div class="card bg-primary shadow-inset border-light w-100">
+					<div class="card-body p-5 ">
+
+						<h3 class="h4 card-title mb-3">
+							<strong>TEST RESULT</strong>
+						</h3>
+						<div
+							class="card bg-primary shadow-soft border-light mt-4 mb-4 text-center"
+							style="width: 80%;">
+							<canvas id="myDoughnutChart"></canvas>
+						</div>
+
+						<span class="card-text small"> ㅇㅇ님의 이산화탄소 발생량 통계입니다. </span>
+						<p id="carbonEmissionInfo1" class="card-text mt-4">ㅇㅇ 님 가정은
+							이산화탄소 배출량은 총 12kg 이며, 비슷한 다른 가정 평균 343.8kg 보다 약 0% 더 많이 배출하고
+							있습니다. 12kg의 이산화탄소 를 상쇄시키기 위해서는 2.9 그루의 소나무를 심어야 합니다. 왼쪽의 그래프를 보고
+							어느 부분에서 이산화탄소를 많이 발생하고 있는지 비교해 보세요.</p>
+
+					</div>
+				</div>
+			</div>
+			<div class="container no-gutters" style="margin-top: 20px;">
+				<div class="row">
+					<div class="col-12 col-lg-3">
+						<!-- 첫 번째 작은 컨테이너 -->
+						<div class="card bg-primary shadow-soft border-light w-100"
+							style="height: 200px;">
+							<!-- 내용 -->
+							<p>Co2 발생량</p>
+							<canvas id="totalChart" style="width: 80%; height: 80%;"></canvas>
+						</div>
+					</div>
+					<div class="col-12 col-lg-3">
+						<!-- 두 번째 작은 컨테이너 -->
+						<div class="card bg-primary shadow-soft border-light w-100"
+							style="height: 200px;">
+							<!-- 내용 -->
+							<p>전기</p>
+							<canvas id="electricityChart" style="width: 80%; height: 80%;"></canvas>
+						</div>
+					</div>
+					<div class="col-12 col-lg-3">
+						<!-- 세 번째 작은 컨테이너 -->
+						<div class="card bg-primary shadow-soft border-light w-100"
+							style="height: 200px;">
+							<!-- 내용 -->
+							<p>가스</p>
+							<canvas id="gasChart" style="width: 80%; height: 80%;"></canvas>
+						</div>
+					</div>
+					<div class="col-12 col-lg-3">
+						<!-- 네 번째 작은 컨테이너 -->
+						<div class="card bg-primary shadow-soft border-light w-100"
+							style="height: 200px;">
+							<!-- 내용 -->
+							<p>수도</p>
+							<canvas id="waterChart" style="width: 80%; height: 80%;"></canvas>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="container mb-6"
+				style="display: flex; justify-content: space-between; align-items: flex-start;">
+				<!-- 실천목표 -->
+				<div
+					class="card shadow-inset bg-primary border-light p-4 rounded mt-6"
+					style="width: 50%;">
+					<div class="card-body p-4 "
+						style="overflow-x: auto; overflow-y: auto;">
+						<div class="tab-content" id="tabcontent1">
+							<div class="tab-pane fade show active" id="tabs-text-1"
+								role="tabpanel" aria-labelledby="tabs-text-1-tab"
+								style="text-align: center;">
+								<h3>
+									<strong>실천목표</strong>
+								</h3>
+								<table class="table table-hover shadow-inset rounded"
+									id="selectTable">
+									<tr>
+										<td data-co2="3.2" data-cost="1293" class="clickable-cell">하루
+											1시간은 에어컨 대신 선풍기로!</td>
+									</tr>
+									<tr>
+										<td data-co2="0.6" data-cost="226" class="clickable-cell">세탁은
+											모아서 해도 잘 된답니다.</td>
+									</tr>
+									<tr>
+										<td data-co2="5.9" data-cost="2368" class="clickable-cell">전기밥솥
+											보온기능은 전기 먹는 하마</td>
+									</tr>
+									<tr>
+										<td data-co2="1.6" data-cost="653" class="clickable-cell">컴퓨터
+											절전프로그램(그린터치) 사용</td>
+									</tr>
+									<tr>
+										<td data-co2="1.8" data-cost="725" class="clickable-cell">TV
+											시청 줄이고 가족과 대화 늘리고!</td>
+									</tr>
+									<tr>
+										<td data-co2="1.8" data-cost="725" class="clickable-cell">TV
+											시청 줄이고 가족과 대화 늘리고!</td>
+									</tr>
+									<tr>
+										<td data-co2="1.8" data-cost="725" class="clickable-cell">TV
+											시청 줄이고 가족과 대화 늘리고!</td>
+									</tr>
+									<tr>
+										<td data-co2="1.8" data-cost="725" class="clickable-cell">TV
+											시청 줄이고 가족과 대화 늘리고!</td>
+									</tr>
+									<tr>
+										<td data-co2="1.8" data-cost="725" class="clickable-cell">TV
+											시청 줄이고 가족과 대화 늘리고!</td>
+									</tr>
+									<tr>
+										<td data-co2="1.8" data-cost="725" class="clickable-cell">TV
+											시청 줄이고 가족과 대화 늘리고!</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Co2 저감 목표 -->
+				<div class="row">
+					<div class="col-md-12 mb-5 mt-6" style="width: 50%;">
+						<div class="card bg-primary shadow-soft border-light">
+							<table class="table table-hover shadow-inset rounded"
+								style="width: 450px; height: 500px;">
+								<th>
+								<td>월간 co2저감 목표 및 비용 효과</td>
+								</th>
+								<tr>
+									<td>전기</td>
+									<td id="co2Electricity">0kg</td>
+									<td id=costElectricity>0원</td>
+								</tr>
+								<tr>
+									<td>가스</td>
+									<td id="co2Gas">0kg</td>
+									<td id="costGas">0원</td>
+								</tr>
+								<tr>
+									<td>수도</td>
+									<td id="co2Water">0kg</td>
+									<td id="costWater">0원</td>
+								</tr>
+								<tr>
+									<td>합계</td>
+									<td id="totalCo2">0kg</td>
+									<td id="totalCost">0원</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- 실천방안 -->
+			<div class="container mb-6">
+				<div class="row">
+					<div class="col-md-4 mb-4" style="height: 250px;">
+						<!-- 첫 번째 컨테이너 -->
+						<div class="card bg-primary shadow-soft border-light h-100"
+							style="background-image: url('${pageContext.request.contextPath}/assets/img/report/선풍기.png'); background-size: 50%; background-repeat: no-repeat; background-position: center left; padding: 15px;">
+							<!-- 내용 -->
+							<p style="text-align: right; font-size: 1.5rem;">
+								<strong>하루 1시간은</strong><br>
+							</p>
+							<p style="text-align: right;">에어컨 대신 선풍기로!</p>
+						</div>
+					</div>
+
+
+					<div class="col-md-4 mb-4" style="height: 250px;">
+						<!-- 두 번째 컨테이너 -->
+						<div class="card bg-primary shadow-soft border-light h-100"
+							style="background-image: url('${pageContext.request.contextPath}/assets/img/report/세탁기.png'); background-size: 50%; background-repeat: no-repeat; background-position: center left; padding: 15px;">
+							<!-- 내용 -->
+							<p style="text-align: right; font-size: 1.5rem;">
+								<strong>세탁은 모아서</strong><br>
+							</p>
+							<p style="text-align: right;">해도 잘 된답니다.</p>
+						</div>
+					</div>
+					<div class="col-md-4 mb-4" style="height: 250px;">
+						<!-- 세 번째 컨테이너 -->
+						<div class="card bg-primary shadow-soft border-light h-100"
+							style="background-image: url('${pageContext.request.contextPath}/assets/img/report/전기밥솥.png'); background-size: 50%; background-repeat: no-repeat; background-position: center left; padding: 15px;">
+							<!-- 내용 -->
+							<p style="text-align: right; font-size: 1.5rem;">
+								<strong>보온기능은</strong><br>
+							</p>
+							<p style="text-align: right;">전기먹는 하마</p>
+						</div>
+					</div>
+					<div class="col-md-4 mb-4" style="height: 250px;">
+						<!-- 네 번째 컨테이너 -->
+						<div class="card bg-primary shadow-soft border-light h-100"
+							style="background-image: url('${pageContext.request.contextPath}/assets/img/report/냉장고.png'); background-size: 50%; background-repeat: no-repeat; background-position: center left; padding: 15px;">
+							<!-- 내용 -->
+							<p style="text-align: right; font-size: 1.5rem;">
+								<strong>냉장실은 60%</strong><br>
+							</p>
+							<p style="text-align: right;">채우면 효율이 최고!</p>
+						</div>
+					</div>
+					<div class="col-md-4 mb-4" style="height: 250px;">
+						<!-- 다섯 번째 컨테이너 -->
+						<div class="card bg-primary shadow-soft border-light h-100"
+							style="background-image: url('${pageContext.request.contextPath}/assets/img/report/TV.png'); background-size: 50%; background-repeat: no-repeat; background-position: center left; padding: 15px;">
+							<!-- 내용 -->
+							<p style="text-align: right; font-size: 1.5rem;">
+								<strong> 시청은 줄이고</strong><br>
+							</p>
+							<p style="text-align: right;">가족과 대화 늘리고!</p>
+						</div>
+					</div>
+					<div class="col-md-4 mb-4" style="height: 250px;">
+						<!-- 여섯 번째 컨테이너 -->
+						<div class="card bg-primary shadow-soft border-light h-100"
+							style="background-image: url('${pageContext.request.contextPath}/assets/img/report/난방.png'); background-size: 50%; background-repeat: no-repeat; background-position: center left; padding: 15px;">
+							<!-- 내용 -->
+							<p style="text-align: right;">겨울철 난방온도는</p>
+							<p style="text-align: right; font-size: 1.5rem;">
+								<strong>20도가 적당</strong><br>
+							</p>
+						</div>
+					</div>
+					<div class="col-md-4 mb-4" style="height: 250px;">
+						<!-- 일곱 번째 컨테이너 -->
+						<div class="card bg-primary shadow-soft border-light h-100"
+							style="background-image: url('${pageContext.request.contextPath}/assets/img/report/보일러.png'); background-size: 50%; background-repeat: no-repeat; background-position: center left; padding: 15px;">
+							<!-- 내용 -->
+							<p style="text-align: right;">보일러 사용시간을</p>
+							<p style="text-align: right; font-size: 1.5rem;">
+								<strong>1시간 줄여요</strong><br>
+							</p>
+						</div>
+					</div>
+					<div class="col-md-4 mb-4" style="height: 250px;">
+						<!-- 여덟 번째 컨테이너 -->
+						<div class="card bg-primary shadow-soft border-light h-100"
+							style="background-image: url('${pageContext.request.contextPath}/assets/img/report/절수기.png'); background-size: 50%; background-repeat: no-repeat; background-position: center left; padding: 15px;">
+							<!-- 내용 -->
+
+							<p style="text-align: right; font-size: 1.5rem;">
+								<strong>절수기로 <br> 물낭비를
+								</strong><br>
+							</p>
+							<p style="text-align: right;">쉽게 막아요</p>
+						</div>
+					</div>
+					<div class="col-md-4 mb-4" style="height: 250px;">
+						<!-- 아홉 번째 컨테이너 -->
+						<div class="card bg-primary shadow-soft border-light h-100"
+							style="background-image: url('${pageContext.request.contextPath}/assets/img/report/설거지.png'); background-size: 50%; background-repeat: no-repeat; background-position: center left; padding: 15px;">
+							<!-- 내용 -->
+
+							<p style="text-align: right; font-size: 1.5rem;">
+								<strong>물을 받아서</strong><br>
+							</p>
+							<p style="text-align: right;">설거지해요</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- 종합평가  -->
+			<div class="col-12 col-lg-12 mb-6">
+				<div class="card bg-primary shadow-inset border-light w-100">
+					<div class="card-body p-5 ">
+
+
+						<div
+							class="card bg-primary shadow-soft border-light mt-4 text-center"
+							style="width: 80%;">
+							<!-- 내용 -->
+							<p>
+								<strong>이산화탄소 배출현황 및 비교 </strong><br>
+							</p>
+							<canvas id="co2comparison" style="width: 90%; height: 90%;"></canvas>
+							<br>
+							<p id="co2ComparisonText">
+								- 이산화탄소 배출량은 총 488.93kg 이며, 비슷한 규모의 다른 가정보다 약 415.93kg 더 많이 배출하고
+								있습니다.<br> - 이만큼의 이산화탄소를 없애기 위해서는 약 65.19 그루의 소나무를 심어야 합니다.<br>
+
+								- 부문별로 보면 전기,가스,수도,교통의 4개 부문 중0개 부문에서 다른 가정보다 이산화탄소 배출이 많습니다.
+							</p>
+
+						</div>
+					</div>
+					<div class="container no-gutters mb-6 text-center"
+						style="margin-top: 20px;">
+						<div class="row">
+							<div class="col-12 col-lg-4">
+								<!-- 첫 번째 작은 컨테이너 -->
+								<div class="card bg-primary shadow-soft border-light w-100"
+									style="height: 300px;">
+									<!-- 내용 -->
+									<p>전기</p>
+									<canvas id="eCO2BarChart" style="width: 80%; height: 80%;"></canvas>
+								</div>
+							</div>
+							<div class="col-12 col-lg-4">
+								<!-- 두 번째 작은 컨테이너 -->
+								<div class="card bg-primary shadow-soft border-light w-100"
+									style="height: 300px;">
+									<!-- 내용 -->
+									<p>가스</p>
+									<canvas id="gCO2BarChart" style="width: 80%; height: 80%;"></canvas>
+								</div>
+							</div>
+							<div class="col-12 col-lg-4">
+								<!-- 세 번째 작은 컨테이너 -->
+								<div class="card bg-primary shadow-soft border-light w-100"
+									style="height: 300px;">
+									<!-- 내용 -->
+									<p>수도</p>
+									<canvas id="wCO2BarChart" style="width: 80%; height: 80%;"></canvas>
+								</div>
+							</div>
+							<!-- 네 번째 작은 컨테이너는 생략 -->
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-8" style="display: flex; justify-content: center; align-items: center; margin: au">
+				<button class="btn btn-primary text-success w-100" id="savePdf"
+					type="button">다운로드</button>
+				<button class="btn btn-primary text-success w-100" id="sendSimul"
+					type="button">계산기 페이지 이동</button>
+			</div>
+			<img
+				src="${pageContext.request.contextPath}/assets/img/brand/carina_logo.png"
+				alt="Carina Logo"
+				style="width: 60%; height: 60%; display: block; margin-left: auto; margin-right: auto;">
+
+		</div>
+
+	</div>
+
+
+</body>
+</html>

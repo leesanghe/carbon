@@ -1,0 +1,12 @@
+package com.carina.cbs.member.service;
+
+import com.carina.cbs.member.vo.MemberVO;
+
+public interface MemberService {	
+
+	MemberVO loginMember(MemberVO member);
+
+	void registMember(MemberVO member) throws Exception;
+
+	
+}

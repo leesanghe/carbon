@@ -1,0 +1,8 @@
+package com.carina.cbs.emp.dao;
+
+import org.apache.ibatis.annotations.Mapper;
+
+@Mapper
+public interface IEmpDAO {
+
+}

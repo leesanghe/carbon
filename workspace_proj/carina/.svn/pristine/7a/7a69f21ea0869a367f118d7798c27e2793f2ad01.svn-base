@@ -1,0 +1,10 @@
+package com.carina.cbs.board.actboard.service;
+
+import java.util.List;
+
+import com.carina.cbs.board.actboard.vo.ActBoardVO;
+
+public interface ActBoardService {
+
+	List<ActBoardVO>getactboardList();
+}

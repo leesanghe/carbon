@@ -1,0 +1,44 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+	
+</head>
+<body>
+	<%@include file="/WEB-INF/inc/top.jsp" %>
+<script>
+	// 로컬 스토리지에서 값을 가져오는 함수
+	function getResultFromLocalStorage() {
+	    var result = JSON.parse(localStorage.getItem('calculationResult'));
+	    return result;
+	}
+
+    // 페이지 로드 시 실행되는 함수
+    window.onload = function () {
+        // 로컬 스토리지에서 값 가져오기
+        var storedResult = getResultFromLocalStorage();
+
+        // 가져온 값이 있다면 콘솔에 출력
+        if (storedResult) {
+            console.log('전기 Emission:', storedResult.electricityEmission);
+            console.log('수도 Conversion:', storedResult.waterEmission);
+            console.log('가스 Conversion:', storedResult.gasEmission);
+            // 다른 필요한 값들도 출력
+        } else {
+            console.log('No stored result found.');
+        }
+        
+        console.log('Local Storage Contentes:', localStorage)
+    };
+    
+    
+    
+    
+  
+</script>
+    <%@include file="/WEB-INF/inc/footer.jsp" %>
+</body>
+</html>

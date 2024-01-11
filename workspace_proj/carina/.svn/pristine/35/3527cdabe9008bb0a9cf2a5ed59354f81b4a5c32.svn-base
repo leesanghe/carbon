@@ -1,0 +1,54 @@
+package com.carina.cbs.cbsa.web;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.carina.cbs.cbsa.service.CbsaService;
+
+@Controller
+public class CbsaaController {
+    @Autowired
+    CbsaService cbsaService;
+
+    @PostMapping("/simulinsertt")
+    public String simulEndpoint(@RequestParam("price") double price, @RequestParam("euType") String euType, Model model) {
+        try {
+            // Check carbon emissions
+            double carbonEmission = cbsaService.calculateCarbonCheck(price);
+
+            // Calculate the number of pine trees to plant based on carbon emissions
+            String check = cbsaService.calculateTree(euType);
+
+            // Add results to the model
+            model.addAttribute("carbonEmission", carbonEmission);
+            model.addAttribute("check", check);
+        } catch (Exception e) {
+            model.addAttribute("error", "Invalid input.");
+        }
+
+        return "cbs/simul"; // Redirect to the "simul.jsp" page
+    }
+
+    @GetMapping("/simulupsert")
+    public String simulEndpoint1(@RequestParam("price") double price, @RequestParam("euType") String euType, Model model) {
+        try {
+            // Check carbon emissions
+        	 double carbonEmission = cbsaService.calculateCarbonCheck(price);
+
+            // Calculate the number of pine trees to plant based on carbon emissions
+            String check = cbsaService.calculateTree(euType);
+
+            // Add results to the model
+            model.addAttribute("carbonEmission", carbonEmission);
+            model.addAttribute("check", check);
+        } catch (Exception e) {
+            model.addAttribute("error", "Invalid input.");
+        }
+
+        return "cbs/simul"; // Redirect to the "simul.jsp" page
+    }
+}

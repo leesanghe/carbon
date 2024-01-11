@@ -1,0 +1,21 @@
+package com.carina.cbs.board.actboard.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.carina.cbs.board.actboard.vo.ActBoardVO;
+
+
+@Mapper
+public interface IActBoardDAO {
+	
+	public List<ActBoardVO> getactboardList();
+	public int uploadImage(ActBoardVO actBoardVO);
+	public int actboardwrite(ActBoardVO actboard);
+	public ActBoardVO getActBoard(int actBoardNo); 
+	
+	public int updateactBoard(ActBoardVO actboard);
+
+	public int deleteactBoard(int boardNo);
+}

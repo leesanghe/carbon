@@ -1,0 +1,34 @@
+package com.carina.cbs.emp.web;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import com.carina.cbs.emp.service.EmpService;
+
+@Controller
+public class EmpController {
+
+    @Autowired
+    EmpService empService;
+
+    @GetMapping("/powerPrediction")
+    public String showPowerPrediction() {
+        @RequestParam("year") int year,
+        @RequestParam("metro") String metro,
+        @RequestParam("city") String city,
+        Model model) {
+    
+    // 서비스를 통해 전력 예측 데이터를 가져온다
+    // 서비스 메서드에 필요한 파라미터를 전달
+    model.addAttribute("powerPredictionData", empService.getPowerDataByYearAndLocation(year, metro, city));
+    
+    // 년도, 지역 시, 지역(군,구) 목록을 뷰로 전달
+    model.addAttribute("years", empService.getAllYears());
+    model.addAttribute("cities", empService.getAllCities());
+    model.addAttribute("metros", empService.getAllMetros());
+
+    return "predictPower"; // powerPrediction.jsp로 포워딩
+}
+}

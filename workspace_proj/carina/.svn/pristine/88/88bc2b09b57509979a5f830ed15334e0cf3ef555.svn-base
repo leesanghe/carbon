@@ -1,0 +1,13 @@
+package com.carina.cbs.member.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.carina.cbs.member.dao.IMemberDAO;
+
+@Service
+public class MemberServcieImpl implements MemberService{
+	@Autowired
+	IMemberDAO dao;
+
+}

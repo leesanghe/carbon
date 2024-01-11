@@ -1,0 +1,20 @@
+package com.carina.cbs.cbic.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.carina.cbs.cbi.vo.CbiVO;
+import com.carina.cbs.cbic.vo.CbicVO;
+import com.carina.cbs.emp.vo.EmpVO;
+
+@Mapper
+public interface ICbicDAO {
+	
+	 
+	List<Integer> getAllYear();
+	 List<Double> getAllEM();
+	 List<String> getAllMetro();
+	List<String> getcarbonCities(CbicVO cbicVO);
+}
+	

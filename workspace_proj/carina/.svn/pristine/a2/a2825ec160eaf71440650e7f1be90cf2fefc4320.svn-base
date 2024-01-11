@@ -1,0 +1,32 @@
+package com.carina.cbs.board.freeboard.web;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.carina.cbs.board.freeboard.service.FreeBoardService;
+import com.carina.cbs.board.freeboard.vo.FreeBoardVO;
+
+
+/**
+ * Class Name  : FreeBoardController
+ * Author      : ParkGeunHye
+ * Created Date: 2023. 11. 21.
+ * Version: 1.0
+ * Purpose:   샘플
+ * Description: 테스트용 샘플입니다.
+ */
+@Controller
+public class FreeBoardController {
+	@Autowired
+	FreeBoardService freeboardService;
+	@RequestMapping("/freeList")
+	public String freeBoardList(Model model) {
+		List<FreeBoardVO> freeBoardList = freeboardService.getBoardList();
+		model.addAttribute("freeList", freeBoardList);
+		return "/board/freeList";
+	}
+}

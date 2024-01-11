@@ -1,0 +1,58 @@
+package com.carina.cbs.cbic.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.carina.cbs.cbi.dao.ICbiDAO;
+import com.carina.cbs.cbi.vo.CbiVO;
+import com.carina.cbs.cbic.dao.ICbicDAO;
+import com.carina.cbs.cbic.vo.CbicVO;
+import com.carina.cbs.emp.dao.IEmpDAO;
+import com.carina.cbs.emp.vo.EmpVO;
+
+@Service("CbicService")
+public class CbicServiceImpl implements CbicService {
+	@Autowired
+	ICbicDAO iCbicDAO;
+
+	@Override
+	public List<Integer> getAllYear() {
+		return iCbicDAO.getAllYear();
+	}
+
+
+	@Override
+	public List<String> getcarbonCities(CbicVO cbicVO) {		
+		return iCbicDAO.getcarbonCities(cbicVO);
+	}
+
+
+	@Override
+	public List<Double> getAllEM() {
+		// TODO Auto-generated method stub
+		return iCbicDAO.getAllEM();
+	}
+
+
+
+
+	@Override
+	public List<String> getAllMetro() {
+		// TODO Auto-generated method stub
+		return iCbicDAO.getAllMetro();
+	}
+
+
+
+	
+
+
+
+
+
+	
+
+    
+}

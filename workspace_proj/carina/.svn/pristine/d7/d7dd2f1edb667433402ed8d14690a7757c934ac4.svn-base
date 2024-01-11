@@ -1,0 +1,12 @@
+package com.carina.cbs.cbi.serivce;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.carina.cbs.cbi.dao.ICbiDAO;
+
+@Service
+public class CbiServiceImpl implements CbiService {
+	@Autowired
+	ICbiDAO dao;
+}

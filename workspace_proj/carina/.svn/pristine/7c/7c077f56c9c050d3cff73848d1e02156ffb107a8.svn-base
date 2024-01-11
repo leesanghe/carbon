@@ -1,0 +1,370 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+</head>
+<body>
+<!-- 	문서 전체를 묶는 div, maincontainer -->
+	<div class="maincontainer">
+		<div class="row mt-5 justify-content-center">
+			<div class="col-md-12 mb-5 text-center">
+				<h1 class="display-2">
+					<strong>탄소 중립 결과 보고서</strong>
+				</h1>
+			</div>
+			<hr1>
+		</div>
+		<div class="container mt-6">
+			<div class="col-12 col-lg-12 mb-6">
+				<div class="card bg-primary shadow-inset border-light w-100">
+					<div class="card-body p-5 ">
+						<h3 class="h4 card-title mb-3">
+							<strong>사용자 정보</strong>
+						</h3>
+						<span class="card-text small"> ㅇㅇ님의 이산화탄소 발생량 통계입니다. </span>
+						<p id="carbonEmissionInfo" class="card-text mt-4">ㅇㅇ 님 가정은
+							이산화탄소 배출량은 총 12kg 이며, 비슷한 다른 가정 평균 343.8kg 보다 약 0% 더 많이 배출하고
+							있습니다. 12kg의 이산화탄소 를 상쇄시키기 위해서는 2.9 그루의 소나무를 심어야 합니다. 왼쪽의 그래프를 보고
+							어느 부분에서 이산화탄소를 많이 발생하고 있는지 비교해 보세요.</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-12 col-lg-12 mb-6">
+				<div class="card bg-primary shadow-inset border-light w-100">
+					<div class="card-body p-5 ">
+
+						<h3 class="h4 card-title mb-3">
+							<strong>TEST RESULT</strong>
+						</h3>
+						<div
+							class="card bg-primary shadow-soft border-light mt-4 mb-4 text-center"
+							style="width: 80%;">
+							<canvas id="myDoughnutChart"></canvas>
+						</div>
+
+						<span class="card-text small"> ㅇㅇ님의 이산화탄소 발생량 통계입니다. </span>
+						<p id="carbonEmissionInfo" class="card-text mt-4">ㅇㅇ 님 가정은
+							이산화탄소 배출량은 총 12kg 이며, 비슷한 다른 가정 평균 343.8kg 보다 약 0% 더 많이 배출하고
+							있습니다. 12kg의 이산화탄소 를 상쇄시키기 위해서는 2.9 그루의 소나무를 심어야 합니다. 왼쪽의 그래프를 보고
+							어느 부분에서 이산화탄소를 많이 발생하고 있는지 비교해 보세요.</p>
+
+					</div>
+				</div>
+			</div>
+			<div class="container no-gutters" style="margin-top: 20px;">
+				<div class="row">
+					<div class="col-12 col-lg-3">
+						<!-- 첫 번째 작은 컨테이너 -->
+						<div class="card bg-primary shadow-soft border-light w-100"
+							style="height: 200px;">
+							<!-- 내용 -->
+							<p>Co2 발생량</p>
+							<canvas id="totalChart" style="width: 80%; height: 80%;"></canvas>
+						</div>
+					</div>
+					<div class="col-12 col-lg-3">
+						<!-- 두 번째 작은 컨테이너 -->
+						<div class="card bg-primary shadow-soft border-light w-100"
+							style="height: 200px;">
+							<!-- 내용 -->
+							<p>전기</p>
+							<canvas id="electricityChart" style="width: 80%; height: 80%;"></canvas>
+						</div>
+					</div>
+					<div class="col-12 col-lg-3">
+						<!-- 세 번째 작은 컨테이너 -->
+						<div class="card bg-primary shadow-soft border-light w-100"
+							style="height: 200px;">
+							<!-- 내용 -->
+							<p>가스</p>
+							<canvas id="gasChart" style="width: 80%; height: 80%;"></canvas>
+						</div>
+					</div>
+					<div class="col-12 col-lg-3">
+						<!-- 네 번째 작은 컨테이너 -->
+						<div class="card bg-primary shadow-soft border-light w-100"
+							style="height: 200px;">
+							<!-- 내용 -->
+							<p>수도</p>
+							<canvas id="waterChart" style="width: 80%; height: 80%;"></canvas>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="container mb-6"
+				style="display: flex; justify-content: space-between; align-items: flex-start;">
+				<!-- 실천목표 -->
+				<div
+					class="card shadow-inset bg-primary border-light p-4 rounded mt-6"
+					style="width: 50%;">
+					<div class="card-body p-4 "
+						style="overflow-x: auto; overflow-y: auto;">
+						<div class="tab-content" id="tabcontent1">
+							<div class="tab-pane fade show active" id="tabs-text-1"
+								role="tabpanel" aria-labelledby="tabs-text-1-tab"
+								style="text-align: center;">
+								<h3>
+									<strong>실천목표</strong>
+								</h3>
+								<table class="table table-hover shadow-inset rounded"
+									id="electricityTable">
+									<tr>
+										<td data-co2="3.2" data-cost="1293" class="clickable-cell">하루
+											1시간은 에어컨 대신 선풍기로!</td>
+									</tr>
+									<tr>
+										<td data-co2="0.6" data-cost="226" class="clickable-cell">세탁은
+											모아서 해도 잘 된답니다.</td>
+									</tr>
+									<tr>
+										<td data-co2="5.9" data-cost="2368" class="clickable-cell">전기밥솥
+											보온기능은 전기 먹는 하마</td>
+									</tr>
+									<tr>
+										<td data-co2="1.6" data-cost="653" class="clickable-cell">컴퓨터
+											절전프로그램(그린터치) 사용</td>
+									</tr>
+									<tr>
+										<td data-co2="1.8" data-cost="725" class="clickable-cell">TV
+											시청 줄이고 가족과 대화 늘리고!</td>
+									</tr>
+									<tr>
+										<td data-co2="1.8" data-cost="725" class="clickable-cell">TV
+											시청 줄이고 가족과 대화 늘리고!</td>
+									</tr>
+									<tr>
+										<td data-co2="1.8" data-cost="725" class="clickable-cell">TV
+											시청 줄이고 가족과 대화 늘리고!</td>
+									</tr>
+									<tr>
+										<td data-co2="1.8" data-cost="725" class="clickable-cell">TV
+											시청 줄이고 가족과 대화 늘리고!</td>
+									</tr>
+									<tr>
+										<td data-co2="1.8" data-cost="725" class="clickable-cell">TV
+											시청 줄이고 가족과 대화 늘리고!</td>
+									</tr>
+									<tr>
+										<td data-co2="1.8" data-cost="725" class="clickable-cell">TV
+											시청 줄이고 가족과 대화 늘리고!</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Co2 저감 목표 -->
+				<div class="row">
+					<div class="col-md-12 mb-5 mt-6" style="width: 50%;">
+						<div class="card bg-primary shadow-soft border-light">
+							<table class="table table-hover shadow-inset rounded"
+								style="width: 450px; height: 500px;">
+								<th>
+								<td>월간 co2저감 목표 및 비용 효과</td>
+								</th>
+								<tr>
+									<td>전기</td>
+									<td id="co2Electricity">0kg</td>
+									<td id=costElectricity>0원</td>
+								</tr>
+								<tr>
+									<td>가스</td>
+									<td id="co2Gas">0kg</td>
+									<td id="costGas">0원</td>
+								</tr>
+								<tr>
+									<td>수도</td>
+									<td id="co2Water">0kg</td>
+									<td id="costWater">0원</td>
+								</tr>
+								<tr>
+									<td>합계</td>
+									<td id="totalCo2">0kg</td>
+									<td id="totalCost">0원</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- 실천방안 -->
+			<div class="container mb-6">
+				<div class="row">
+					<div class="col-md-4 mb-4" style="height: 250px;">
+						<!-- 첫 번째 컨테이너 -->
+						<div class="card bg-primary shadow-soft border-light h-100"
+							style="background-image: url('/assets/img/report/선풍기.png'); background-size: 50%; background-repeat: no-repeat; background-position: center left; padding: 15px;">
+							<!-- 내용 -->
+							<p style="text-align: right; font-size: 1.5rem;">
+								<strong>하루 1시간은</strong><br>
+							</p>
+							<p style="text-align: right;">에어컨 대신 선풍기로!</p>
+						</div>
+					</div>
+
+
+					<div class="col-md-4 mb-4" style="height: 250px;">
+						<!-- 두 번째 컨테이너 -->
+						<div class="card bg-primary shadow-soft border-light h-100"
+							style="background-image: url('/assets/img/report/세탁기.png'); background-size: 50%; background-repeat: no-repeat; background-position: center left; padding: 15px;">
+							<!-- 내용 -->
+							<p style="text-align: right; font-size: 1.5rem;">
+								<strong>세탁은 모아서</strong><br>
+							</p>
+							<p style="text-align: right;">해도 잘 된답니다.</p>
+						</div>
+					</div>
+					<div class="col-md-4 mb-4" style="height: 250px;">
+						<!-- 세 번째 컨테이너 -->
+						<div class="card bg-primary shadow-soft border-light h-100"
+							style="background-image: url('/assets/img/report/전기밥솥.png'); background-size: 50%; background-repeat: no-repeat; background-position: center left; padding: 15px;">
+							<!-- 내용 -->
+							<p style="text-align: right; font-size: 1.5rem;">
+								<strong>보온기능은</strong><br>
+							</p>
+							<p style="text-align: right;">전기먹는 하마</p>
+						</div>
+					</div>
+					<div class="col-md-4 mb-4" style="height: 250px;">
+						<!-- 네 번째 컨테이너 -->
+						<div class="card bg-primary shadow-soft border-light h-100"
+							style="background-image: url('/assets/img/report/냉장고.png'); background-size: 50%; background-repeat: no-repeat; background-position: center left; padding: 15px;">
+							<!-- 내용 -->
+							<p style="text-align: right; font-size: 1.5rem;">
+								<strong>냉장실은 60%</strong><br>
+							</p>
+							<p style="text-align: right;">채우면 효율이 최고!</p>
+						</div>
+					</div>
+					<div class="col-md-4 mb-4" style="height: 250px;">
+						<!-- 다섯 번째 컨테이너 -->
+						<div class="card bg-primary shadow-soft border-light h-100"
+							style="background-image: url('/assets/img/report/TV.png'); background-size: 50%; background-repeat: no-repeat; background-position: center left; padding: 15px;">
+							<!-- 내용 -->
+							<p style="text-align: right; font-size: 1.5rem;">
+								<strong> 시청은 줄이고</strong><br>
+							</p>
+							<p style="text-align: right;">가족과 대화 늘리고!</p>
+						</div>
+					</div>
+					<div class="col-md-4 mb-4" style="height: 250px;">
+						<!-- 여섯 번째 컨테이너 -->
+						<div class="card bg-primary shadow-soft border-light h-100"
+							style="background-image: url('/assets/img/report/난방.png'); background-size: 50%; background-repeat: no-repeat; background-position: center left; padding: 15px;">
+							<!-- 내용 -->
+							<p style="text-align: right;">겨울철 난방온도는</p>
+							<p style="text-align: right; font-size: 1.5rem;">
+								<strong>20도가 적당</strong><br>
+							</p>
+						</div>
+					</div>
+					<div class="col-md-4 mb-4" style="height: 250px;">
+						<!-- 일곱 번째 컨테이너 -->
+						<div class="card bg-primary shadow-soft border-light h-100"
+							style="background-image: url('/assets/img/report/보일러.png'); background-size: 50%; background-repeat: no-repeat; background-position: center left; padding: 15px;">
+							<!-- 내용 -->
+							<p style="text-align: right;">보일러 사용시간을</p>
+							<p style="text-align: right; font-size: 1.5rem;">
+								<strong>1시간 줄여요</strong><br>
+							</p>
+						</div>
+					</div>
+					<div class="col-md-4 mb-4" style="height: 250px;">
+						<!-- 여덟 번째 컨테이너 -->
+						<div class="card bg-primary shadow-soft border-light h-100"
+							style="background-image: url('/assets/img/report/절수기.png'); background-size: 50%; background-repeat: no-repeat; background-position: center left; padding: 15px;">
+							<!-- 내용 -->
+
+							<p style="text-align: right; font-size: 1.5rem;">
+								<strong>절수기로 <br> 물낭비를
+								</strong><br>
+							</p>
+							<p style="text-align: right;">쉽게 막아요</p>
+						</div>
+					</div>
+					<div class="col-md-4 mb-4" style="height: 250px;">
+						<!-- 아홉 번째 컨테이너 -->
+						<div class="card bg-primary shadow-soft border-light h-100"
+							style="background-image: url('/assets/img/report/설거지.png'); background-size: 50%; background-repeat: no-repeat; background-position: center left; padding: 15px;">
+							<!-- 내용 -->
+
+							<p style="text-align: right; font-size: 1.5rem;">
+								<strong>물을 받아서</strong><br>
+							</p>
+							<p style="text-align: right;">설거지해요</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- 종합평가  -->
+			<div class="col-12 col-lg-12 mb-6">
+				<div class="card bg-primary shadow-inset border-light w-100">
+					<div class="card-body p-5 ">
+
+
+						<div
+							class="card bg-primary shadow-soft border-light mt-4 text-center"
+							style="width: 80%;">
+							<!-- 내용 -->
+							<p>
+								<strong>이산화탄소 배출현황 및 비교 </strong><br>
+							</p>
+							<canvas id="eCO2BarChart" style="width: 90%; height: 90%;"></canvas>
+							<br>
+							<p>
+								- 이산화탄소 배출량은 총 488.93kg 이며, 비슷한 규모의 다른 가정보다 약 415.93kg 더 많이 배출하고
+								있습니다.<br> - 이만큼의 이산화탄소를 없애기 위해서는 약 65.19 그루의 소나무를 심어야 합니다.<br>
+
+								- 부문별로 보면 전기,가스,수도,교통의 4개 부문 중0개 부문에서 다른 가정보다 이산화탄소 배출이 많습니다.
+							</p>
+
+						</div>
+					</div>
+					<div class="container no-gutters mb-6 text-center"
+						style="margin-top: 20px;">
+						<div class="row">
+							<div class="col-12 col-lg-4">
+								<!-- 첫 번째 작은 컨테이너 -->
+								<div class="card bg-primary shadow-soft border-light w-100"
+									style="height: 300px;">
+									<!-- 내용 -->
+									<p>전기</p>
+									<canvas id="totalChart" style="width: 80%; height: 80%;"></canvas>
+								</div>
+							</div>
+							<div class="col-12 col-lg-4">
+								<!-- 두 번째 작은 컨테이너 -->
+								<div class="card bg-primary shadow-soft border-light w-100"
+									style="height: 300px;">
+									<!-- 내용 -->
+									<p>가스</p>
+									<canvas id="electricityChart" style="width: 80%; height: 80%;"></canvas>
+								</div>
+							</div>
+							<div class="col-12 col-lg-4">
+								<!-- 세 번째 작은 컨테이너 -->
+								<div class="card bg-primary shadow-soft border-light w-100"
+									style="height: 300px;">
+									<!-- 내용 -->
+									<p>수도</p>
+									<canvas id="gasChart" style="width: 80%; height: 80%;"></canvas>
+								</div>
+							</div>
+							<!-- 네 번째 작은 컨테이너는 생략 -->
+						</div>
+					</div>
+				</div>
+			</div>
+			<img src="/assets/img/brand/carina_logo.png" alt="Carina Logo"
+				style="width: 60%; height: 60%; display: block; margin-left: auto; margin-right: auto;">
+
+		</div>
+	</div>
+
+
+</body>
+</html>

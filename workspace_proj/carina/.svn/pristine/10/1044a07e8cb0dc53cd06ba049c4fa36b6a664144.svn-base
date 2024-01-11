@@ -1,0 +1,22 @@
+package com.carina.cbs.board.actboard.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.carina.cbs.board.actboard.dao.IActBoardDAO;
+import com.carina.cbs.board.actboard.vo.ActBoardVO;
+
+@Service
+public class ActBoardServiceImpl implements ActBoardService {
+	@Autowired
+	IActBoardDAO dao;
+	
+	@Override
+	public List<ActBoardVO> getactboardList(){
+		return dao.getactboardList();
+		
+	}
+	
+}

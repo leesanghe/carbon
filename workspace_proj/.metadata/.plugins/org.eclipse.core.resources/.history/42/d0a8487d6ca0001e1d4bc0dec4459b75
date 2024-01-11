@@ -1,0 +1,188 @@
+package com.carina.cbs.member.web;
+
+import java.time.LocalDateTime;
+
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.carina.cbs.member.service.MemberService;
+import com.carina.cbs.member.vo.MemberVO;
+
+@Controller
+public class MemberController {
+	
+	@Autowired
+	MemberService memberService;	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
+	
+	@RequestMapping("/solution")
+	public String solution() {		
+		return "solution";		
+	}
+	
+	@RequestMapping("/loginView")
+	public String loginView(HttpServletRequest request, HttpSession session, Model model, String msg) {
+	    // 현재 페이지의 URL을 세션에 저장
+	    String fromUrl = request.getHeader("Referer");
+	    session.setAttribute("fromUrl", fromUrl);
+	    
+	    model.addAttribute("msg", msg);
+	    return "member/loginView";
+	}
+	
+	@RequestMapping("/registView")
+	public String registview() {		
+	    return "member/registView";	    
+	}
+	
+	@RequestMapping("/mypage")
+	public String mypage() {		
+	    return "member/mypage";	    
+	}
+	
+	@RequestMapping("/admin")
+	public String admin() {		
+	    return "member/admin";	    
+	}	
+	
+	
+	
+	@RequestMapping("/loginDo")
+	public String loginDo(MemberVO member, HttpSession session,
+	                      boolean remember, String fromUrl, HttpServletResponse response, Model model) {
+	    System.out.println(member);
+
+
+	    // 암호화된 패스워드로 로그인 시도
+	    MemberVO login = memberService.loginMember(member);
+
+	    if (login == null) {
+	        return "redirect:/loginView?msg=N";
+	    }
+	    	
+	    // 입력받은 이메일과 DB에서 조회한 이메일을 비교
+	    boolean memIdMatch = member.getMemId().equals(login.getMemId());
+
+	    // 입력받은 패스워드를 암호화하여 DB에 저장된 암호화된 패스워드와 비교
+	    boolean passwordMatch = passwordEncoder.matches(member.getMemPw(), login.getMemPw());
+
+	    if (memIdMatch && passwordMatch) {
+	        // id 와 pw가 모두 일치하면 로그인 성공
+
+	        session.setAttribute("login", login);
+	        
+
+	        if (remember) {
+	            // true 쿠키 생성  
+	        	 Cookie cookie = new Cookie("rememberId", login.getMemId());
+	             cookie.setMaxAge(60 * 60 * 24 * 7); // 쿠키 유효 기간 설정 (7일)
+	             response.addCookie(cookie); // 응답하는 객체에 담아서 전달
+	            
+	        } else {
+	            // 쿠키 삭제
+	            Cookie cookie = new Cookie("rememberId", "");
+	            cookie.setMaxAge(0);
+	            response.addCookie(cookie); // 응답하는 객체에 담아서 전달
+	        }
+	        //model.addAttribute("welcomeMessage", "오셨군요 " + login.getMemId() + "님");	        
+
+//	        return "redirect:/"; // 로그인 성공 시 이동할 페이지
+	        String fromUrl1 = (String) session.getAttribute("fromUrl");
+	        if (!fromUrl1.startsWith("http://localhost:8080/cbs/loginView") ) {
+	        	System.out.println(fromUrl);
+	            session.removeAttribute("fromUrl"); // 이후에는 세션에서 삭제
+	            return "redirect:" + fromUrl1;
+	        } else {
+	            // 이전 페이지가 없는 경우 기본적으로 리다이렉션할 페이지 설정
+	            return "redirect:/";
+	        }
+	        
+	    } else {
+	        // 이메일 또는 패스워드가 일치하지 않으면 로그인 실패
+	    	 //model.addAttribute("errorMessage", "아이디.또는.비밀번호가.일치하지.않습니다.");
+	        
+	       return "redirect:/loginView";
+	    }
+	}
+	
+	@RequestMapping("/logout")
+	public String logout(HttpSession session, HttpServletResponse response) {
+	    // 세션에서 로그인 정보 삭제
+	    session.removeAttribute("login");
+	    
+
+	    // 쿠키 삭제
+	    Cookie cookie = new Cookie("rememberId", "");
+	    cookie.setMaxAge(0);
+	    response.addCookie(cookie); // 응답하는 객체에 담아서 전달
+
+	    return "redirect:/";
+	    
+	}
+	
+
+	@RequestMapping("/registDo")
+	public String registDo(HttpServletRequest request) {
+	    String nm = request.getParameter("nm");
+	    String addr = request.getParameter("addr");
+	    String sgng = request.getParameter("sgng");
+	    String id = request.getParameter("id");
+	    String email = request.getParameter("email");
+	    String rawPassword = request.getParameter("pw");
+	    
+	    
+	    if (rawPassword == null) {
+	        // rawPassword가 null이면 처리할 내용 추가
+	        return "error"; // 예를 들어, 에러 페이지로 리다이렉트 또는 에러 메시지 반환
+	    }
+	    // 사용자로부터 받은 원본 패스워드를 암호화
+	    String encodedPassword = passwordEncoder.encode(rawPassword);
+
+	    String profileImg = "default_profile.jpg";
+	    String mbti = "what";
+	    LocalDateTime regDate = LocalDateTime.now();
+	    	    
+
+	    MemberVO member = new MemberVO(id, encodedPassword, nm, profileImg, Integer.parseInt(sgng), mbti, regDate, addr, email);
+
+	    try {
+	        memberService.registMember(member);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return "member/loginView";
+	    }
+
+	    return "redirect:/";
+	}
+	
+	@PostMapping("/updateProfile")
+	public String updateProfile(@ModelAttribute("login") MemberVO memberVO, HttpSession session) {
+	    String encodedPassword = passwordEncoder.encode(memberVO.getMemPw());
+	    memberVO.setMemPw(encodedPassword);
+		
+		// 이 메서드에서는 받아온 데이터를 서비스에 전달하여 업데이트를 수행합니다.
+	    memberService.updateProfile(memberVO);
+
+	    // 세션을 갱신
+	    MemberVO updatedMember = memberService.getMemberById(memberVO.getMemId());
+	    session.setAttribute("login", updatedMember);
+
+	    return "redirect:/";
+	}
+	
+	
+	
+}

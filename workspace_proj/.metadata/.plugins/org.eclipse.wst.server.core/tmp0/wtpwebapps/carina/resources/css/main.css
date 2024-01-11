@@ -1,0 +1,18 @@
+#main{
+  background-color: #e6e7ee;
+  width: 80%;
+  text-align: center;
+  border-radius: 20px;
+}
+
+p{
+  font-size: 20px;
+}
+.btn-outline-danger:hover {
+  background-color: #007bff !important;
+  
+}
+.btn-outline-danger {
+    color: #afd2ed;
+    border-color: #afd2ed;
+}

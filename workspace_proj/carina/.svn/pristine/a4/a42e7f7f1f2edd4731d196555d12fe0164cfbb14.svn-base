@@ -1,0 +1,52 @@
+package com.carina.cbs.cbsa.web;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import com.carina.cbs.cbsa.service.CbsaService;
+
+@Controller
+@RequestMapping("/cbs")
+public class CbsaaaController {
+
+    private final CbsaService cbsaService;
+
+    @Autowired
+    public CbsaaaController(CbsaService cbsaService) {
+        this.cbsaService = cbsaService;
+    }
+
+    @PostMapping("/insert")
+    @ResponseBody
+    public ResponseEntity<String> handleFormData(@RequestParam("elecCo2") String elecCo2,
+                                                @RequestParam("gasCo2") String gasCo2,
+                                                @RequestParam("waterCo2") String waterCo2,
+                                                @RequestParam("carCo2") String carCo2,
+                                                @RequestParam("elecTree") String elecTree,
+                                                @RequestParam("gasTree") String gasTree,
+                                                @RequestParam("waterTree") String waterTree,
+                                                @RequestParam("carTree") String carTree,
+                                                @RequestParam("memberTotalCo2") String memberTotalCo2,
+                                                @RequestParam("memberTotalTree") String memberTotalTree) {
+        try {
+            cbsaService.processFormData(elecCo2, gasCo2, waterCo2, carCo2,
+                                        elecTree, gasTree, waterTree, carTree,
+                                        memberTotalCo2, memberTotalTree);
+
+            // Your server-side logic for form data processing
+
+            return ResponseEntity.ok("Data successfully received and processed!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("An error occurred during processing.");
+        }
+    }
+
+    // Add similar method for handling update
+
+    @GetMapping("/showForm")
+    public String showForm() {
+        return "yourFormPage"; // This should match the name of your Thymeleaf or JSP template
+    }
+}

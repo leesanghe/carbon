@@ -1,0 +1,150 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+	
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+	
+<body>
+	<%@include file="/WEB-INF/inc/top.jsp"%>
+<!-- 카톡로그인버튼 함수 -->
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.5.0/kakao.min.js"
+  integrity="sha384-kYPsUbBPlktXsY6/oNHSUDZoTX6+YI51f63jCPEIPFP09ttByAdxd2mEjKuhdqn4" crossorigin="anonymous"></script>
+<script>
+  Kakao.init('c089c8172def97eb00c07217cae17495'); // 사용하려는 앱의 JavaScript 키 입력
+</script>
+<p id="token-result"></p>
+<script>
+  function loginWithKakao() {
+    Kakao.Auth.authorize({
+      redirectUri: 'https://developers.kakao.com/tool/demo/oauth',
+    });
+  }
+
+  function getCookie(name) {
+    var parts = document.cookie.split(name + '=');
+    if (parts.length === 2) {
+      return parts[1].split(';')[0];
+    }
+  }
+
+  // 로그인이 성공한 후 호출될 함수
+  function afterKakaoLogin() {
+    // Kakao.Auth.getStatus를 통해 현재 로그인 상태 확인
+    Kakao.Auth.getStatus(function(statusObj) {
+      if (statusObj.status === 'connected') {
+        // 로그인이 성공한 경우 사용자 토큰 출력
+        document.getElementById('token-result').innerHTML = '사용자 토큰: ' + getCookie('KakaoAccessToken');
+      } else {
+        // 로그인이 실패한 경우 메시지 출력 또는 다른 처리 수행
+        document.getElementById('token-result').innerHTML = '카카오 로그인 실패';
+      }
+    });
+  }
+
+  // Kakao.Auth.login 에서 success 콜백 함수로 지정하거나
+  // 사용자가 리디렉션된 페이지에 이 함수를 호출하는 방식으로 사용 가능
+  afterKakaoLogin();
+</script>
+	<main>
+		<!-- Section -->
+		<section class="min-vh-100 d-flex bg-primary align-items-center">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-12 col-md-8 col-lg-6 justify-content-center">
+						<div class="card bg-primary shadow-soft border-light p-4">
+							<div class="card-header text-center pb-0">
+								<h2 class="h4">Sign in to our platform</h2>
+							</div>
+							<div class="card-body">
+								<form method="post"  action="<c:url value ="/loginDo" />"  class="mt-4" >
+									<!-- Form -->
+									<div class="form-group">
+										<label for="exampleInputIcon3">Your Id</label>
+										<div class="input-group mb-4">
+											<div class="input-group-prepend">
+												<span class="input-group-text"><span
+													class="fas fa-user"></span></span>
+											</div>
+											<input class="form-control" id="exampleInputIcon3" name="memId"
+												placeholder="ID" type="text" value="${cookie.rememberId.value }"
+												aria-label="memId">
+										</div>
+									</div>
+									<!-- End of Form -->
+									<div class="form-group">
+										<!-- Form -->
+										<div class="form-group">
+											<label for="exampleInputPassword6">Password</label>
+											<div class="input-group mb-4">
+												<div class="input-group-prepend">
+													<span class="input-group-text"><span
+														class="fas fa-unlock-alt"></span></span>
+												</div>
+												<input class="form-control" id="exampleInputPassword6" name="memPw"
+													placeholder="Password" type="password" 
+													aria-label="Password" required>
+											</div>
+										</div>
+										<!-- End of Form -->
+										<div
+											class="d-block d-sm-flex justify-content-between align-items-center mb-4">
+											<div class="form-check">
+												<input class="form-check-input" type="checkbox" value="${fromUrl }"
+													id="defaultCheck5" name="rememberMe"> <label class="form-check-label"
+													for="defaultCheck5">ID 저장</label>
+											</div>
+											
+											<div>
+												<a href="#" class="small text-right">Lost password?</a>
+											</div>
+										</div>
+									</div>
+									<button type="submit" class="btn btn-block btn-primary">Sign in</button>
+								</form>
+								<div class="mt-3 mb-4 text-center">
+									<span class="font-weight-normal">or login with</span>
+								</div>
+								<div class="btn-wrapper my-4 text-center">
+									<button
+										class="btn btn-primary btn-icon-only text-facebook mr-2"
+										type="button" aria-label="facebook button"
+										title="facebook button">
+										<span aria-hidden="true" class="fab fa-facebook-f"></span>
+									</button>
+									<button class="btn btn-primary btn-icon-only text-twitter mr-2"
+										type="button" aria-label="twitter button"
+										title="twitter button">
+										<span aria-hidden="true" class="fab fa-twitter"></span>
+									</button>
+									<button class="btn btn-primary btn-icon-only text-github mr-2"
+										type="button" aria-label="github button" title="github button">
+										<span aria-hidden="true" class="fab fa-github"></span>
+									</button>									
+									<button class="btn btn-primary btn-icon-only text-facebook mr-2" type="button" onclick="loginWithKakao()" aria-label="github button" title="github button">
+											<a id="kakao-login-btn" href="javascript:loginWithKakao()">
+									    <span aria-hidden="true" class="custom-icon">									       
+									        <img src="./resources/assets/img/brand/kakao1.png" alt="Custom Icon">
+									    </span>
+									</button>																		
+    								  
+									</div>
+								<div
+									class="d-block d-sm-flex justify-content-center align-items-center mt-4">
+									<span class="font-weight-normal">Not registered? <a
+										href="#" class="font-weight-bold">Create account</a></span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+
+
+	<%@include file="/WEB-INF/inc/footer.jsp"%>
+</body>
+</html>

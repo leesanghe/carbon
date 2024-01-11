@@ -1,0 +1,13 @@
+package com.carina.cbs.board.news.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.carina.cbs.board.news.dao.INewsDAO;
+
+@Service
+public class NewsServiceImpl implements NewsServcie {
+	@Autowired
+	INewsDAO dao;
+
+}
